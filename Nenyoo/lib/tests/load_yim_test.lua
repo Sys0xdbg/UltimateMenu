@@ -311,5 +311,21 @@ end
 for _, failure in ipairs(failures) do print(failure) end
 assert(#failures == 0, string.format("%d action callbacks failed", #failures))
 assert(menu_back_calls > 0, "Gun Van Close action did not leave its submenu")
+-- A filtered list changes ordinal positions. An action must still select its
+-- original weapon rather than whatever weapon moved into that position.
+local weapon_filter, pistol_action, set_weapon_action
+for _, input in ipairs(inputs) do
+    if input.label == "Weapon Name" then weapon_filter = input.callback end
+end
+for _, action in ipairs(actions) do
+    if action.label == "Pistol" then pistol_action = action.callback end
+    if action.label == "Set Weapon" then set_weapon_action = action.callback end
+end
+assert(weapon_filter and pistol_action and set_weapon_action, "Missing Gun Van editor controls")
+memory.tunable = function() return 123456 end
+weapon_filter("Pistol")
+pistol_action()
+set_weapon_action()
+assert(memory_values[123456] == util.joaat("WEAPON_PISTOL"), "Filtered Gun Van row selected another weapon")
 print(string.format("Ultimate Menu loaded: %d nodes, %d lists, %d actions, %d ImGui sections",
     next_ref, counters.list, counters.action, #compat.imgui_sections))

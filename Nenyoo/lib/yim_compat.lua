@@ -340,21 +340,23 @@ local function ancestors(extra)
     if extra then out[type(extra) == "table" and extra.id or extra] = true end
     return out
 end
-local function source_key(counters, fallback)
+local function source_key(counters, fallback, label)
     for level = 3, 12 do
         local info = debug.getinfo(level, "Sl")
         if not info then break end
         if info.source and info.source:find("Ultimate_Menu_Legacy.lua", 1, true) then
             local line = info.currentline
-            counters[line] = (counters[line] or 0) + 1
-            return tostring(line) .. ":" .. counters[line]
+            local key = tostring(line)
+            if label ~= nil then key = key .. ":" .. tostring(label) end
+            counters[key] = (counters[key] or 0) + 1
+            return key .. ":" .. counters[key]
         end
     end
     return fallback
 end
-local function next_id()
+local function next_id(label)
     widget_index = widget_index + 1
-    return source_key(widget_occurrences, tostring(widget_index))
+    return source_key(widget_occurrences, tostring(widget_index), label)
 end
 local function label_for_menu(label)
     if label:sub(1, 2) ~= "##" then return label:gsub("##.*$", "") end
@@ -371,7 +373,7 @@ local function event_for(id, value)
     return current_event and current_event.id == id and current_event.value == value
 end
 local function register_action(label, value)
-    local id = next_id()
+    local id = next_id(label)
     local section = current_section
     if not section.widget_refs[id] then
         local path = ancestors()
@@ -387,7 +389,7 @@ ImGui = {}
 function ImGui.Button(label) return register_action(label, true) end
 function ImGui.Selectable(label) return register_action(label, true) end
 function ImGui.Checkbox(label, value)
-    local id = next_id()
+    local id = next_id(label)
     local section = current_section
     if not section.widget_refs[id] then
         local path = ancestors()
@@ -400,7 +402,7 @@ function ImGui.Checkbox(label, value)
     return value, false
 end
 local function numeric_input(label, value, as_float)
-    local id = next_id()
+    local id = next_id(label)
     local section = current_section
     if not section.widget_refs[id] then
         local path = ancestors()
@@ -420,7 +422,7 @@ function ImGui.InputInt(label, value) return numeric_input(label, value, false) 
 function ImGui.InputFloat(label, value) return numeric_input(label, value, true) end
 function ImGui.DragInt(label, value) return numeric_input(label, value, false) end
 function ImGui.SliderInt(label, value, min_value, max_value)
-    local id = next_id()
+    local id = next_id(label)
     local section = current_section
     if not section.widget_refs[id] then
         local path = ancestors()
@@ -433,7 +435,7 @@ function ImGui.SliderInt(label, value, min_value, max_value)
     return value, false
 end
 function ImGui.InputText(label, value)
-    local id = next_id()
+    local id = next_id(label)
     local section = current_section
     if not section.widget_refs[id] then
         local path = ancestors()
@@ -446,7 +448,7 @@ function ImGui.InputText(label, value)
     return value, false
 end
 function ImGui.Combo(label, selected, choices, count)
-    local id = next_id()
+    local id = next_id(label)
     local section = current_section
     local menu_label = label_for_menu(label)
     if not section.containers_by_id[id] then
@@ -529,7 +531,7 @@ function ImGui.CloseCurrentPopup()
 end
 function ImGui.BeginTabBar() return true end
 function ImGui.BeginTabItem(label)
-    local id = next_id()
+    local id = next_id(label)
     local ref = current_section.containers_by_id[id]
     if not ref then
         ref = menu.list(current_parent(), label, {}, "")
