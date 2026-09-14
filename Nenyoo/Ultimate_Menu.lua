@@ -36,5 +36,6 @@ end
 
 local compatibility = run(directory .. "lib\\yim_compat.lua")
 run(directory .. "lib\\Ultimate_Menu_Legacy.lua")
+run(directory .. "lib\\info_panel.lua")(compatibility)
 compatibility.materialize_imgui()
 return compatibility

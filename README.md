@@ -43,7 +43,7 @@
 - For **Nenyoo GTA V Legacy**:
   Copy the contents of [`Nenyoo`](Nenyoo) to `%LOCALAPPDATA%\Nenyoo\Plus\Scripts\User\UltimateMenu\`. In Nenyoo, open `Scripts` and select `Ultimate_Menu.lua` to load its menu page. The `lib` folder must stay beside the entry script. Join GTA Online before using online actions.
 
-  The Nenyoo edition translates the YimMenu Legacy menu hierarchy and controls. It requires a Nenyoo build with the named-script execution and host-request Lua bridges. GTA V Enhanced has not been validated.
+  The Nenyoo edition translates the YimMenu Legacy menu hierarchy and controls, with instructions and live status in a companion information panel beside the active submenu. It requires a Nenyoo build with the named-script execution and host-request Lua bridges. GTA V Enhanced has not been validated.
 </details>
 
 ---

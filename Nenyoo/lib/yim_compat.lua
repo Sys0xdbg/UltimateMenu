@@ -254,7 +254,16 @@ end
 
 local tab_methods = {}
 local imgui_sections = {}
+local info_pages = {}
 local tab_mt = {__index = tab_methods}
+local function page_id(ref)
+    return util.joaat("Stand#" .. tostring(type(ref) == "table" and ref.id or ref))
+end
+local function info_page(ref, title)
+    local id = page_id(ref)
+    if not info_pages[id] then info_pages[id] = {title = title or "Information", static = {}} end
+    return info_pages[id], id
+end
 local function text_input(parent, label, help, callback, value)
     if menu.text_input then
         return menu.text_input(parent, label, {}, help, callback, value)
@@ -262,6 +271,7 @@ local function text_input(parent, label, help, callback, value)
     return __smenu.text_input(type(parent) == "table" and parent.id or parent, label, {}, help, callback, value)
 end
 local function tab(ref, path)
+    info_page(ref, path:match("([^/]+)$") or path)
     return setmetatable({ref = ref, path = path}, tab_mt)
 end
 
@@ -297,7 +307,10 @@ function tab_methods:add_input_int(label, default_value)
     function obj:set_value(value) self.value = value end
     return obj
 end
-function tab_methods:add_text(label) return menu.readonly(self.ref, label, "") end
+function tab_methods:add_text(label)
+    local page = info_page(self.ref)
+    page.static[#page.static + 1] = {text = tostring(label or "")}
+end
 function tab_methods:add_separator() return menu.divider(self.ref, "") end
 function tab_methods:add_sameline() end
 function tab_methods:add_imgui(callback)
@@ -327,7 +340,7 @@ function script.execute_as_script(name, callback)
     return __ny_execute_as_script(name, callback)
 end
 
-local current_section, current_event, building, widget_index, widget_occurrences, text_occurrences, separator_occurrences, parent_stack
+local current_section, current_event, building, widget_index, widget_occurrences, separator_occurrences, parent_stack
 local function current_parent() return parent_stack[#parent_stack] end
 local function push_parent(ref) parent_stack[#parent_stack + 1] = ref end
 local function pop_parent() if #parent_stack > 1 then parent_stack[#parent_stack] = nil end end
@@ -364,13 +377,9 @@ local function label_for_menu(label)
 end
 local function replay(section, event)
     current_section, current_event = section, event
-    building, widget_index, widget_occurrences, text_occurrences, separator_occurrences, parent_stack = false, 0, {}, {}, {}, {section.parent}
-    section.notice_seen = false
+    building, widget_index, widget_occurrences, separator_occurrences, parent_stack = false, 0, {}, {}, {section.parent}
+    section.info_rows = {}
     section.callback()
-    if section.notice_ref and not section.notice_seen then
-        menu.delete(section.notice_ref)
-        section.notice_ref = nil
-    end
     current_section, current_event, parent_stack = nil, nil, nil
 end
 local function event_for(id, value)
@@ -386,6 +395,7 @@ local function register_action(label, value)
         end)
     end
     section.last_ref = section.widget_refs[id]
+    section.last_info_row = nil
     return event_for(id, value)
 end
 
@@ -402,6 +412,7 @@ function ImGui.Checkbox(label, value)
         end, value and true or false)
     end
     section.last_ref = section.widget_refs[id]
+    section.last_info_row = nil
     if current_event and current_event.id == id then return current_event.value, true end
     return value, false
 end
@@ -419,6 +430,7 @@ local function numeric_input(label, value, as_float)
         end, tostring(value or 0))
     end
     section.last_ref = section.widget_refs[id]
+    section.last_info_row = nil
     if current_event and current_event.id == id then return current_event.value, true end
     return value, false
 end
@@ -435,6 +447,7 @@ function ImGui.SliderInt(label, value, min_value, max_value)
         end)
     end
     section.last_ref = section.widget_refs[id]
+    section.last_info_row = nil
     if current_event and current_event.id == id then return current_event.value, true end
     return value, false
 end
@@ -448,6 +461,7 @@ function ImGui.InputText(label, value)
         end, value or "")
     end
     section.last_ref = section.widget_refs[id]
+    section.last_info_row = nil
     if current_event and current_event.id == id then return current_event.value, true end
     return value, false
 end
@@ -469,6 +483,7 @@ function ImGui.Combo(label, selected, choices, count)
         end
     end
     section.last_ref = section.containers_by_id[id]
+    section.last_info_row = nil
     local current_choice = choices[(selected or 0) + 1]
     if current_choice then
         local display = menu_label .. ": " .. tostring(current_choice)
@@ -477,7 +492,7 @@ function ImGui.Combo(label, selected, choices, count)
     if current_event and current_event.id == id then return current_event.value, true end
     return selected, false
 end
-function ImGui.Text(value)
+local function record_text(value, color)
     if value == nil or value == "" then return end
     local label = tostring(value)
     if current_section.tooltip then
@@ -487,29 +502,21 @@ function ImGui.Text(value)
         return
     end
     local compact = label:gsub("%s+", " "):match("^%s*(.-)%s*$")
-    if compact == "Unavailable in Single Player." or compact == "Waiting for game..." then
-        current_section.notice_seen = true
-        if not current_section.notice_ref then
-            current_section.notice_ref = menu.divider(current_parent(), compact)
-        elseif menu.get_menu_name(current_section.notice_ref) ~= compact then
-            menu.set_menu_name(current_section.notice_ref, compact)
-        end
-        return
-    end
-    label = compact
-    local text_id = source_key(text_occurrences, "text:" .. tostring(#current_section.text_refs + 1))
-    if not current_section.text_refs[text_id] then
-        current_section.text_refs[text_id] = menu.readonly(current_parent(), label, "")
-    else
-        local ref = current_section.text_refs[text_id]
-        if menu.get_menu_name(ref) ~= label then menu.set_menu_name(ref, label) end
-    end
-    current_section.last_ref = current_section.text_refs[text_id]
-    if #label <= 60 then current_section.last_text = label:gsub(":$", "") end
+    local _, id = info_page(current_parent())
+    local rows = current_section.info_rows[id]
+    if not rows then rows = {}; current_section.info_rows[id] = rows end
+    local row = {text = label, color = color}
+    rows[#rows + 1] = row
+    current_section.last_info_row = row
+    current_section.last_ref = nil
+    if #compact <= 60 then current_section.last_text = compact:gsub(":$", "") end
 end
+ImGui.Text = record_text
 ImGui.TextUnformatted = ImGui.Text
 ImGui.TextWrapped = ImGui.Text
-function ImGui.TextColored(_, _, _, _, value) ImGui.Text(value) end
+function ImGui.TextColored(r, g, b, a, value)
+    record_text(value, {r, g, b, a})
+end
 function ImGui.Separator()
     local id = source_key(separator_occurrences, "separator:" .. tostring(widget_index))
     if not current_section.separator_refs[id] then
@@ -523,7 +530,13 @@ function ImGui.ProgressBar(fraction, _, _, overlay)
     ImGui.Text(overlay or string.format("%d%%", math.floor(math.max(0, math.min(1, fraction or 0)) * 100)))
 end
 function ImGui.SetTooltip(message)
-    if current_section.last_ref then menu.set_help_text(current_section.last_ref, tostring(message)) end
+    if current_section.last_info_row then
+        local row = current_section.last_info_row
+        if row.text == "[?]" then row.text = tostring(message)
+        else row.tooltip = tostring(message) end
+    elseif current_section.last_ref then
+        menu.set_help_text(current_section.last_ref, tostring(message))
+    end
 end
 function ImGui.BeginTooltip() current_section.tooltip = true; return true end
 function ImGui.EndTooltip() current_section.tooltip = false end
@@ -550,11 +563,13 @@ function ImGui.BeginTabItem(label)
     local ref = current_section.containers_by_id[id]
     if not ref then
         ref = menu.list(current_parent(), label, {}, "")
+        info_page(ref, label)
         current_section.containers[#current_section.containers + 1] = ref
         current_section.containers_by_id[id] = ref
     end
     if not ref then return false end
     if current_event and not current_event.ancestors[ref.id] then return false end
+    current_section.last_info_row = nil
     push_parent(ref)
     return true
 end
@@ -577,15 +592,36 @@ ImGuiCol = {Text = 0}
 ImGuiTabBarFlags = {None = 0}
 ImGuiWindowFlags = {Modal = 0, NoCollapse = 0, NoMove = 0, NoResize = 0}
 
-local compat = {imgui_sections = imgui_sections}
+local compat = {imgui_sections = imgui_sections, info_pages = info_pages}
+function compat.info_for_page(id)
+    local page = info_pages[id]
+    if not page then return nil end
+    local rows, last_label = {}, nil
+    local function append(row)
+        local label = row.text:gsub("%s+", " "):match("^%s*(.-)%s*$")
+        if label == "" then
+            if #rows > 0 and rows[#rows].text ~= "" then rows[#rows + 1] = {text = ""} end
+            last_label = nil
+        elseif label ~= last_label then
+            rows[#rows + 1] = row
+            last_label = label
+        end
+    end
+    for _, row in ipairs(page.static) do append(row) end
+    for _, section in ipairs(imgui_sections) do
+        local live = section.info_rows and section.info_rows[id]
+        if live then for _, row in ipairs(live) do append(row) end end
+    end
+    return {title = page.title, rows = rows}
+end
 function compat.materialize_imgui()
     for _, section in ipairs(imgui_sections) do
-        section.text_refs, section.widget_refs, section.separator_refs = {}, {}, {}
+        section.widget_refs, section.separator_refs = {}, {}
+        section.info_rows = {}
         section.containers, section.containers_by_id = {}, {}
         section.tooltip, section.last_ref, section.last_text = false, nil, nil
-        section.notice_ref, section.notice_seen = nil, false
         current_section, current_event = section, nil
-        building, widget_index, widget_occurrences, text_occurrences, separator_occurrences, parent_stack = true, 0, {}, {}, {}, {section.parent}
+        building, widget_index, widget_occurrences, separator_occurrences, parent_stack = true, 0, {}, {}, {section.parent}
         scan_context = section.path:find("Story Mode", 1, true) and "story" or "online"
         section.callback()
         scan_context = nil

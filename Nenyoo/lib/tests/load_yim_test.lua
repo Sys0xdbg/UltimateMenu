@@ -5,7 +5,7 @@ local threads_created = 0
 local thread_callbacks = {}
 local thread_origins = {}
 local menu_back_calls = 0
-local notices, deleted_notices = {}, {}
+local list_refs, current_page_id, panel_draw, drawn_text, menu_visible = {}, 0, nil, {}, true
 local memory_values = {}
 local last_pointer
 local function ref()
@@ -17,7 +17,9 @@ menu = {
     list = function(_, label)
         counters.list = counters.list + 1
         list_names[label] = true
-        return ref()
+        local result = ref()
+        list_refs[label] = result
+        return result
     end,
     action = function(_, label, _, _, callback)
         counters.action = counters.action + 1
@@ -34,14 +36,11 @@ menu = {
         return ref()
     end,
     readonly = function() counters.text = counters.text + 1; return ref() end,
-    divider = function(_, label)
-        local result = ref()
-        if label == "Unavailable in Single Player." or label == "Waiting for game..." then
-            notices[result.id] = label
-        end
-        return result
-    end,
-    delete = function(value) deleted_notices[value.id] = true end,
+    divider = function() return ref() end,
+    is_visible = function() return menu_visible end,
+    page_id = function() return current_page_id end,
+    bounds = function() return 100, 80, 420 end,
+    content_rect = function() return 100, 250, 420, 440 end,
     get_value = function() return false end,
     set_value = function() end,
     get_menu_name = function() return "" end,
@@ -57,7 +56,10 @@ __smenu = {
     node_in_viewport = function() return true end,
 }
 util = {
-    joaat = function(name) return #tostring(name) end,
+    joaat = function(name)
+        local page = tostring(name):match("^Stand#(%d+)$")
+        return page and (100000 + tonumber(page)) or #tostring(name)
+    end,
     toast = function() end,
     yield = function()
         local _, is_main = coroutine.running()
@@ -70,6 +72,23 @@ util = {
         return {}
     end,
 }
+overlay = {on_draw = function(name, callback)
+    assert(name == "ultimate_menu_information", "Unexpected overlay registration")
+    panel_draw = callback
+end}
+font = {small = 1, item = 2}
+ctx = {screen_w = function() return 1280 end, screen_h = function() return 900 end}
+input = {mouse_x = function() return 0 end, mouse_y = function() return 0 end,
+    mouse_wheel = function() return 0 end}
+theme = {accent = function() return 55, 145, 245 end}
+text = {
+    width = function(_, value) return #tostring(value) * 8 end,
+    height = function() return 16 end,
+    draw = function(_, _, _, _, _, _, _, value) drawn_text[#drawn_text + 1] = value end,
+    draw_ellipsis = function(_, _, _, _, _, _, _, value) drawn_text[#drawn_text + 1] = value end,
+}
+draw = {rect = function() end, rect_outline = function() end,
+    push_clip = function() end, pop_clip = function() end}
 __ny_execute_as_script = function(_, callback) callback(); return true end
 __ny_request_script_host = function() return true end
 memory = {
@@ -187,22 +206,59 @@ if not os.getenv("UM_START_OFFLINE") then
     assert(counters.action >= 940, "Missing initial actions: " .. counters.action)
 end
 assert(#compat.imgui_sections >= 43, "Missing ImGui sections: " .. #compat.imgui_sections)
+assert(panel_draw, "Information overlay did not register")
 if os.getenv("UM_START_OFFLINE") then
     local viewport_thread = coroutine.create(thread_callbacks[#thread_callbacks])
     local ok, message = coroutine.resume(viewport_thread)
     assert(ok, message)
-    assert(next(notices), "Single Player warning did not appear as a non-selectable row")
-    for _, label in pairs(notices) do
-        assert(not label:find("\n", 1, true), "Single Player warning spans multiple menu rows")
+    local recovery_id = util.joaat("Stand#" .. list_refs["Set Rank menu"].id)
+    local offline_info = compat.info_for_page(recovery_id)
+    local warning = false
+    for _, row in ipairs(offline_info.rows) do
+        if row.text:find("Unavailable in Single Player", 1, true) then warning = true end
     end
+    assert(warning, "Single Player warning did not reach the information panel")
     session_started = true
     ok, message = coroutine.resume(viewport_thread)
     assert(ok, message)
-    for id in pairs(notices) do
-        assert(deleted_notices[id], "Single Player warning remained after joining online")
+    for _, row in ipairs(compat.info_for_page(recovery_id).rows) do
+        assert(not row.text:find("Unavailable in Single Player", 1, true),
+            "Single Player warning remained after joining online")
     end
     assert(counters.action >= 940, "Online controls did not appear after joining: " .. counters.action)
 end
+local apartment_id = util.joaat("Stand#" .. list_refs["Apartment Heist "].id)
+local apartment_info = compat.info_for_page(apartment_id)
+assert(apartment_info and #apartment_info.rows >= 5, "Apartment Heist instructions did not reach the panel")
+assert(counters.text == 0, "Informational text still occupies selectable menu rows")
+local kortz_id = util.joaat("Stand#" .. list_refs["Kortz Center Heist"].id)
+local kortz_info = compat.info_for_page(kortz_id)
+local colored_status, expanded_help = false, false
+for _, row in ipairs(kortz_info.rows) do
+    if row.color then colored_status = true end
+    if row.text:find("Select the main painting", 1, true) then expanded_help = true end
+end
+assert(colored_status, "Colored YimMenu status text lost its color")
+assert(expanded_help, "YimMenu help marker was not expanded in the panel")
+current_page_id = apartment_id
+panel_draw()
+local found_instruction = false
+local found_wrapped_instruction = false
+for _, value in ipairs(drawn_text) do
+    if value:find("Pay for the preparation", 1, true) then found_instruction = true end
+    if value:find("change the session", 1, true) then found_wrapped_instruction = true end
+end
+assert(found_instruction, "Long heist instructions were not drawn in the information panel")
+assert(found_wrapped_instruction, "Long heist instructions were cut off instead of wrapped")
+local drawn_count = #drawn_text
+current_page_id = 0
+panel_draw()
+assert(#drawn_text == drawn_count, "Information panel appeared outside its submenu")
+current_page_id = apartment_id
+menu_visible = false
+panel_draw()
+assert(#drawn_text == drawn_count, "Information panel remained after the menu closed")
+menu_visible = true
 for _, name in ipairs({"Self Menu", "Story Mode", "Recovery Menu", "Online Services Menu",
     "Collectibles", "Events Menu", "YimResupplier", "Heists Data Editor Menu", "Kortz Center Heist"}) do
     assert(list_names[name], "Missing original menu section: " .. name)
