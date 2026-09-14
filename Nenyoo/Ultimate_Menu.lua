@@ -1,6 +1,6 @@
 -- @nenyoo-menu
 -- Ultimate Menu for Nenyoo (GTA V Legacy).
--- Install this entire folder under Documents\Nenyoo\scripts\user.
+-- Install this package under %LOCALAPPDATA%\Nenyoo\Plus\Scripts\User\UltimateMenu.
 
 local source = debug.getinfo(1, "S").source
 assert(source:sub(1, 1) == "@", "Ultimate Menu must be loaded from a file")
