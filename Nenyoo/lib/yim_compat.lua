@@ -158,7 +158,6 @@ end
 
 network = network or {}
 function network.is_session_started()
-    if scan_context then return scan_context ~= "story" end
     return invoke("9DE624D2FC4B603F", {}, "bool")
 end
 function network.force_script_host(name)
@@ -366,7 +365,12 @@ end
 local function replay(section, event)
     current_section, current_event = section, event
     building, widget_index, widget_occurrences, text_occurrences, separator_occurrences, parent_stack = false, 0, {}, {}, {}, {section.parent}
+    section.notice_seen = false
     section.callback()
+    if section.notice_ref and not section.notice_seen then
+        menu.delete(section.notice_ref)
+        section.notice_ref = nil
+    end
     current_section, current_event, parent_stack = nil, nil, nil
 end
 local function event_for(id, value)
@@ -482,6 +486,17 @@ function ImGui.Text(value)
         end
         return
     end
+    local compact = label:gsub("%s+", " "):match("^%s*(.-)%s*$")
+    if compact == "Unavailable in Single Player." or compact == "Waiting for game..." then
+        current_section.notice_seen = true
+        if not current_section.notice_ref then
+            current_section.notice_ref = menu.divider(current_parent(), compact)
+        elseif menu.get_menu_name(current_section.notice_ref) ~= compact then
+            menu.set_menu_name(current_section.notice_ref, compact)
+        end
+        return
+    end
+    label = compact
     local text_id = source_key(text_occurrences, "text:" .. tostring(#current_section.text_refs + 1))
     if not current_section.text_refs[text_id] then
         current_section.text_refs[text_id] = menu.readonly(current_parent(), label, "")
@@ -568,6 +583,7 @@ function compat.materialize_imgui()
         section.text_refs, section.widget_refs, section.separator_refs = {}, {}, {}
         section.containers, section.containers_by_id = {}, {}
         section.tooltip, section.last_ref, section.last_text = false, nil, nil
+        section.notice_ref, section.notice_seen = nil, false
         current_section, current_event = section, nil
         building, widget_index, widget_occurrences, text_occurrences, separator_occurrences, parent_stack = true, 0, {}, {}, {}, {section.parent}
         scan_context = section.path:find("Story Mode", 1, true) and "story" or "online"

@@ -5,6 +5,7 @@ local threads_created = 0
 local thread_callbacks = {}
 local thread_origins = {}
 local menu_back_calls = 0
+local notices, deleted_notices = {}, {}
 local memory_values = {}
 local last_pointer
 local function ref()
@@ -33,7 +34,14 @@ menu = {
         return ref()
     end,
     readonly = function() counters.text = counters.text + 1; return ref() end,
-    divider = function() return ref() end,
+    divider = function(_, label)
+        local result = ref()
+        if label == "Unavailable in Single Player." or label == "Waiting for game..." then
+            notices[result.id] = label
+        end
+        return result
+    end,
+    delete = function(value) deleted_notices[value.id] = true end,
     get_value = function() return false end,
     set_value = function() end,
     get_menu_name = function() return "" end,
@@ -175,8 +183,26 @@ for i = before_load + 1, #native_calls do
     assert(native_calls[i] ~= "B3271D7AB655B441", "Menu materialization wrote a stat")
 end
 assert(counters.list >= 60, "Missing tab hierarchy: " .. counters.list)
-assert(counters.action >= 945, "Missing initial actions: " .. counters.action)
+if not os.getenv("UM_START_OFFLINE") then
+    assert(counters.action >= 940, "Missing initial actions: " .. counters.action)
+end
 assert(#compat.imgui_sections >= 43, "Missing ImGui sections: " .. #compat.imgui_sections)
+if os.getenv("UM_START_OFFLINE") then
+    local viewport_thread = coroutine.create(thread_callbacks[#thread_callbacks])
+    local ok, message = coroutine.resume(viewport_thread)
+    assert(ok, message)
+    assert(next(notices), "Single Player warning did not appear as a non-selectable row")
+    for _, label in pairs(notices) do
+        assert(not label:find("\n", 1, true), "Single Player warning spans multiple menu rows")
+    end
+    session_started = true
+    ok, message = coroutine.resume(viewport_thread)
+    assert(ok, message)
+    for id in pairs(notices) do
+        assert(deleted_notices[id], "Single Player warning remained after joining online")
+    end
+    assert(counters.action >= 940, "Online controls did not appear after joining: " .. counters.action)
+end
 for _, name in ipairs({"Self Menu", "Story Mode", "Recovery Menu", "Online Services Menu",
     "Collectibles", "Events Menu", "YimResupplier", "Heists Data Editor Menu", "Kortz Center Heist"}) do
     assert(list_names[name], "Missing original menu section: " .. name)
@@ -200,6 +226,11 @@ for i = before + 1, #native_calls do
     if native_calls[i] == "B3271D7AB655B441" then stat_writes = stat_writes + 1 end
 end
 assert(stat_writes == 2, "Rank action did not write both stats: " .. stat_writes)
+session_started = false
+local story_viewport = coroutine.create(thread_callbacks[#thread_callbacks])
+local story_ok, story_error = coroutine.resume(story_viewport)
+assert(story_ok, story_error)
+session_started = true
 local story_cash_action
 for _, action in ipairs(actions) do
     if action.label == "Add 1 Mil Cash $" then story_cash_action = action.callback; break end
