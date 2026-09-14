@@ -5,7 +5,7 @@ Use GTA V **Legacy build 3889** and the Nenyoo DLL built with the `__ny_execute_
 ## First run
 
 1. In Story Mode, open the page. Confirm `Ultimate Menu 1.73 By L7NEG` appears with `Story Mode`, `Self Menu`, `Recovery Menu`, `Online Services Menu`, `Collectibles`, `Events Menu`, `Gun Van Menu`, `YimResupplier`, and `Heists Data Editor Menu`. Open and back out of several nested lists. Record any missing row, empty page, freeze, or Lua error.
-2. In `Story Mode`, record the current character's cash, use `Current Character Cash` to set a distinct value, and confirm the game shows it. Restore the original value. Verify an online-only action does not write stats in Story Mode.
+2. In `Story Mode`, record the current character's cash, use `Current Character Cash` to set a distinct value, and confirm the game shows it. Restore the original value. Online-only pages should show a single, non-selectable `Unavailable in Single Player.` notice rather than actionable controls.
 3. Join a GTA Online session and reopen the menu. Verify changing text, toggle, slider, combo, and button controls update the displayed value or game state. Leave the session and confirm Story Mode controls still work.
 4. In `Gun Van Menu > Weapons > Edit Weapons`, search for `Pistol`, select its row, and use `Set Weapon` on a recorded slot. Check that the displayed slot and the in-game Gun Van show Pistol. Restore the original weapon. Test `Remove Weapon` and `Close`, then reopen the editor.
 5. For a business you own, open `YimResupplier` and verify its controls appear after ownership is detected. Test a teleport to a known property and confirm the landing position. Repeat after changing sessions.
