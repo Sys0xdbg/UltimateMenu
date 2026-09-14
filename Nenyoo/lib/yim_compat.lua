@@ -496,7 +496,11 @@ local function record_text(value, color)
     if value == nil or value == "" then return end
     local label = tostring(value)
     if current_section.tooltip then
-        if current_section.last_ref then
+        if current_section.last_info_row then
+            local row = current_section.last_info_row
+            if row.text == "[?]" then row.text = label
+            else row.tooltip = label end
+        elseif current_section.last_ref then
             menu.set_help_text(current_section.last_ref, label)
         end
         return
@@ -509,7 +513,9 @@ local function record_text(value, color)
     rows[#rows + 1] = row
     current_section.last_info_row = row
     current_section.last_ref = nil
-    if #compact <= 60 then current_section.last_text = compact:gsub(":$", "") end
+    if compact ~= "[?]" and #compact <= 60 then
+        current_section.last_text = compact:gsub(":$", "")
+    end
 end
 ImGui.Text = record_text
 ImGui.TextUnformatted = ImGui.Text

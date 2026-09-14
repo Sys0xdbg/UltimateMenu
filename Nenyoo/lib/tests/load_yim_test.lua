@@ -240,6 +240,32 @@ for _, row in ipairs(kortz_info.rows) do
 end
 assert(colored_status, "Colored YimMenu status text lost its color")
 assert(expanded_help, "YimMenu help marker was not expanded in the panel")
+local tooltip_explanations = {
+    "Enables the Trick or Treat event",
+    "Enables the Snowmen Collectibles event",
+    "Enables the Yeti Hunt event",
+    "Enables the special liveries for Knife",
+}
+local found_explanations = {}
+for id in pairs(compat.info_pages) do
+    local page = compat.info_for_page(id)
+    for _, row in ipairs(page.rows) do
+        assert(row.text ~= "[?]", "Unexpanded help marker on " .. tostring(page.title))
+        for i, explanation in ipairs(tooltip_explanations) do
+            if row.text:find(explanation, 1, true) then found_explanations[i] = true end
+        end
+    end
+end
+for i, explanation in ipairs(tooltip_explanations) do
+    assert(found_explanations[i], "Help text did not reach the panel: " .. explanation)
+end
+for _, action in ipairs(actions) do
+    assert(action.label ~= "[?]", "Help marker became an action label")
+end
+for _, input in ipairs(inputs) do
+    assert(input.label ~= "[?]", "Help marker became an input label")
+end
+assert(not list_names["[?]"], "Help marker became a submenu label")
 current_page_id = apartment_id
 panel_draw()
 local found_instruction = false
