@@ -1,4 +1,4 @@
--- GTA V global and script-local addresses are loaded from game_offsets.lua.
+-- GTA V global and script-local addresses are loaded from game_offsets.offsets.
 
 function MPX()
     local PI = stats.get_int("MPPLY_LAST_MP_CHAR")

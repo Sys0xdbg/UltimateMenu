@@ -174,7 +174,7 @@ for _, group_name in ipairs({"globals", "locals", "scripts"}) do
             "Legacy catalog is missing " .. group_name .. "." .. name)
     end
 end
-local offset_catalog = dofile("Nenyoo/lib/game_offsets.lua")
+local offset_catalog = dofile("Nenyoo/lib/game_offsets.offsets")
 assert(offset_catalog.globals.TRANSACTION_ERROR_GLOBAL_1 == 4516981, "Global offset catalog did not load")
 if ctx.edition() == "Enhanced" then
     assert(offset_catalog.edition == "Enhanced" and offset_catalog.build == "1158.13",

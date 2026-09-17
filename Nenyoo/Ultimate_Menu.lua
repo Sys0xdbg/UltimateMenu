@@ -34,7 +34,7 @@ local function run(path)
     return chunk()
 end
 
-local offsets = run(directory .. "lib\\game_offsets.lua")
+local offsets = run(directory .. "lib\\game_offsets.offsets")
 for _, group in ipairs({offsets.globals, offsets.locals, offsets.scripts}) do
     for name, value in pairs(group) do environment[name] = value end
 end
