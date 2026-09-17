@@ -162,8 +162,8 @@ io.open = function(name, mode)
 end
 
 local before_load = #native_calls
-local legacy_offsets = dofile("Nenyoo/lib/game_offsets_legacy.lua")
-local enhanced_offsets = dofile("Nenyoo/lib/game_offsets_enhanced.lua")
+local legacy_offsets = dofile("Nenyoo/lib/game_offsets_legacy.offsets")
+local enhanced_offsets = dofile("Nenyoo/lib/game_offsets_enhanced.offsets")
 for _, group_name in ipairs({"globals", "locals", "scripts"}) do
     for name in pairs(legacy_offsets[group_name]) do
         assert(enhanced_offsets[group_name][name] ~= nil,

@@ -9,5 +9,5 @@ if ctx and type(ctx.edition) == "function" then
     if reported:lower() == "enhanced" then edition = "Enhanced" end
 end
 
-local filename = edition == "Enhanced" and "game_offsets_enhanced.lua" or "game_offsets_legacy.lua"
+local filename = edition == "Enhanced" and "game_offsets_enhanced.offsets" or "game_offsets_legacy.offsets"
 return assert(loadfile(directory .. filename, "t", _ENV))()
