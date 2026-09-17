@@ -77,7 +77,11 @@ overlay = {on_draw = function(name, callback)
     panel_draw = callback
 end}
 font = {small = 1, item = 2}
-ctx = {screen_w = function() return 1280 end, screen_h = function() return 900 end}
+ctx = {
+    screen_w = function() return 1280 end,
+    screen_h = function() return 900 end,
+    edition = function() return os.getenv("UM_EDITION") or "Legacy" end,
+}
 input = {mouse_x = function() return 0 end, mouse_y = function() return 0 end,
     mouse_wheel = function() return 0 end}
 theme = {accent = function() return 55, 145, 245 end}
@@ -158,13 +162,39 @@ io.open = function(name, mode)
 end
 
 local before_load = #native_calls
+local legacy_offsets = dofile("Nenyoo/lib/game_offsets_legacy.lua")
+local enhanced_offsets = dofile("Nenyoo/lib/game_offsets_enhanced.lua")
+for _, group_name in ipairs({"globals", "locals", "scripts"}) do
+    for name in pairs(legacy_offsets[group_name]) do
+        assert(enhanced_offsets[group_name][name] ~= nil,
+            "Enhanced catalog is missing " .. group_name .. "." .. name)
+    end
+    for name in pairs(enhanced_offsets[group_name]) do
+        assert(legacy_offsets[group_name][name] ~= nil,
+            "Legacy catalog is missing " .. group_name .. "." .. name)
+    end
+end
 local offset_catalog = dofile("Nenyoo/lib/game_offsets.lua")
 assert(offset_catalog.globals.TRANSACTION_ERROR_GLOBAL_1 == 4516981, "Global offset catalog did not load")
-assert(offset_catalog.locals.AHLIVESL == 26234 + 1325 + 1, "Apartment lives local is missing")
-assert(offset_catalog.globals.APARTMENT_COOLDOWN(0) == 2686119 + 1 + 76,
-    "Dynamic global formula is incorrect")
-assert(offset_catalog.locals.KORTZ_CUT_GLASS(4) == 32453 + 1 + (4 * 13) + 3,
-    "Dynamic local formula is incorrect")
+if ctx.edition() == "Enhanced" then
+    assert(offset_catalog.edition == "Enhanced" and offset_catalog.build == "1158.13",
+        "Enhanced catalog was not selected")
+    assert(offset_catalog.globals.ACg1 == 1936408, "Enhanced apartment cut is incorrect")
+    assert(offset_catalog.globals.CSg1 == 1575048, "Enhanced session type is incorrect")
+    assert(offset_catalog.locals.AHLIVESL == 28164, "Enhanced apartment lives local is missing")
+    assert(offset_catalog.globals.APARTMENT_COOLDOWN(0) == 2686124 + 1 + 76,
+        "Enhanced dynamic global formula is incorrect")
+    assert(offset_catalog.locals.KORTZ_CUT_GLASS(4) == 32856 + (4 * 13) + 3,
+        "Enhanced dynamic local formula is incorrect")
+else
+    assert(offset_catalog.edition == "Legacy" and offset_catalog.build == "3889",
+        "Legacy catalog was not selected")
+    assert(offset_catalog.locals.AHLIVESL == 26234 + 1325 + 1, "Apartment lives local is missing")
+    assert(offset_catalog.globals.APARTMENT_COOLDOWN(0) == 2686119 + 1 + 76,
+        "Dynamic global formula is incorrect")
+    assert(offset_catalog.locals.KORTZ_CUT_GLASS(4) == 32453 + 1 + (4 * 13) + 3,
+        "Dynamic local formula is incorrect")
+end
 local executed_lines = {}
 if os.getenv("UM_SCAN_COVERAGE") then
     debug.sethook(function(_, line)

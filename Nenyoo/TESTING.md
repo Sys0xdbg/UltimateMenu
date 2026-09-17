@@ -1,6 +1,6 @@
-# Nenyoo Legacy in-game verification
+# Nenyoo Legacy and Enhanced in-game verification
 
-Use GTA V **Legacy build 3889** and the Nenyoo DLL built with the `__ny_execute_as_script` and `__ny_request_script_host` Lua bridges. The package must be at `%LOCALAPPDATA%\Nenyoo\Plus\Scripts\User\UltimateMenu\` with `Ultimate_Menu.lua`, `lib\game_offsets.lua`, and `lib\yim_compat.lua` beside `lib\Ultimate_Menu_Legacy.lua`. Open `Ultimate_Menu.lua` from Nenyoo's Scripts menu; it is a menu page that loads when opened.
+Run this pass separately on GTA V **Legacy build 3889** and **Enhanced build 1158.13** with the Nenyoo DLL that exposes `ctx.edition`, `__ny_execute_as_script`, and `__ny_request_script_host`. The package must be at `%LOCALAPPDATA%\Nenyoo\Plus\Scripts\User\UltimateMenu\` with `Ultimate_Menu.lua`, `lib\game_offsets.lua`, both edition-specific offset catalogs, and `lib\yim_compat.lua` beside `lib\Ultimate_Menu_Legacy.lua`. Open `Ultimate_Menu.lua` from Nenyoo's Scripts menu; it is a menu page that loads when opened. Confirm its heading says `Legacy` or `Enhanced` to match the running game before testing any action.
 
 ## First run
 
@@ -27,4 +27,4 @@ What happened instead:
 Error text or log lines (if any):
 ```
 
-Do not mark the port fully verified until every applicable control has an observed result. The automated Lua mock and DLL build cover loading and API calls, not GTA Online outcomes.
+Do not mark either edition fully verified until every applicable control has an observed result on that edition. The automated Lua mock and DLL build cover loading and API calls, not GTA Online outcomes.

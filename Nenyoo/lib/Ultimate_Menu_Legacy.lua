@@ -399,7 +399,7 @@ function null() end
 
 L7NEG = gui.get_tab("Ultimate Menu 1.73 By L7NEG")
 
-L7NEG:add_text("       Ultimate Menu 1.73 Legacy ")
+L7NEG:add_text("       Ultimate Menu 1.73 " .. (ULTIMATE_MENU_EDITION or "Legacy") .. " ")
 L7NEG:add_text("                       v3")
 bypassOnlineCheckbox = L7NEG:add_checkbox("Bypass Online Check")
 

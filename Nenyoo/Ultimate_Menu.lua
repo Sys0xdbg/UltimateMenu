@@ -1,5 +1,5 @@
 -- @nenyoo-menu
--- Ultimate Menu for Nenyoo (GTA V Legacy).
+-- Ultimate Menu for Nenyoo (GTA V Legacy and Enhanced).
 -- Install this package under %LOCALAPPDATA%\Nenyoo\Plus\Scripts\User\UltimateMenu.
 
 local source = debug.getinfo(1, "S").source
@@ -39,6 +39,8 @@ for _, group in ipairs({offsets.globals, offsets.locals, offsets.scripts}) do
     for name, value in pairs(group) do environment[name] = value end
 end
 environment.ULTIMATE_MENU_OFFSETS = offsets
+environment.ULTIMATE_MENU_EDITION = offsets.edition
+environment.ULTIMATE_MENU_BUILD = offsets.build
 
 local compatibility = run(directory .. "lib\\yim_compat.lua")
 run(directory .. "lib\\Ultimate_Menu_Legacy.lua")
