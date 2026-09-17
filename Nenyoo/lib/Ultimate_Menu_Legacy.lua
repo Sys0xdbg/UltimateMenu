@@ -1,185 +1,4 @@
---Required Stats----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
---Globals & Locals & Variables--
-
-FMg = 262145 -- free mode global ("CASH_MULTIPLIER") //correct
-CSg1 = 1575046 -- change session (type) 1                   // Guide:   NETWORK::UGC_SET_USING_OFFLINE_CONTENT(false); in freemode.c
-CSg2 = 1574589 -- change session (switch) 2                 // Guide:   MP_POST_MATCH_TRANSITION_SCENE in freemode.c
-CSg3 = 1574589 + 2 -- change session (quit) 3               // Guide:   MP_POST_MATCH_TRANSITION_SCENE in freemode.c
-
--- Apartment Heist
-ACg1 = 1935929 + 1 + 1 -- global apartment player 1 cut global ("fmmc_launcher")
-ACg2 = 1935929 + 1 + 2 -- global apartment player 2 cut global ("fmmc_launcher")
-ACg3 = 1935929 + 1 + 3 -- global apartment player 3 cut global ("fmmc_launcher")
-ACg4 = 1935929 + 1 + 4 -- global apartment player 4 cut global ("fmmc_launcher")
-ACg5 = 1937897 + 3008 + 1 -- local apartment player 1 cut global ("fmmc_launcher")
-AUAJg1 = FMg + 9184 -- apartment unlock all jobs global 1 ("ROOT_ID_HASH_THE_FLECCA_JOB")
-AUAJg2 = FMg + 9189 -- apartment unlock all jobs global 2 ("ROOT_ID_HASH_THE_PRISON_BREAK")
-AUAJg3 = FMg + 9196 -- apartment unlock all jobs global 3 ("ROOT_ID_HASH_THE_HUMANE_LABS_RAID")
-AUAJg4 = FMg + 9202 -- apartment unlock all jobs global 4 ("ROOT_ID_HASH_SERIES_A_FUNDING")
-AUAJg5 = FMg + 9208 -- apartment unlock all jobs global 5 ("ROOT_ID_HASH_THE_PACIFIC_STANDARD_JOB")
-AIFl1 = 19808 -- apartment instant finish local 1
-AIFl2 = 19808 + 1062 -- apartment instant finish local 2
-AIFl3 = 19808 + 1740 + 1 -- apartment instant finish local 3
-AIFl4 = 19808 + 2686 -- apartment instant finish local 4
-AIFl5 = 28722 + 1 -- apartment instant finish local 5
-AIFl6 = 31981 + 1 + 68 -- apartment instant finish local 6
-AFHl = 11837 + 24 -- apartment fleeca hack local
-AFDl = 10125 + 11 -- apartment fleeca drill local
-AFPl = 9831 -- apartment pacific hack local
-AHSo = 19808 + 2 -- Apartment heist skip checkpoint
-ACDg = 2686119 -- apartment cooldown global
-AHDg = 4718592 + 3771 -- search in tuneables_processing.c for joaat("HEIST_DIFFICULTY_EASY") then search the global you find in fmmc_launcher.c then take the global in switch state above it done
-AHLIVES = 26234 + 1325 + 1 -- Apartment Heist team lives local found below if (eventData == -1248635465) in ("fm_mission_controller")
-
--- Diamond Casino Heist
-DCRBl = 217 -- diamond casino reload board local
-DCCg1 = 1972483 + 1497 + 736 + 92 + 1 -- diamond casino player 1 cut global ("gb_casino_heist_planning")
-DCCg2 = 1972483 + 1497 + 736 + 92 + 2 -- diamond casino player 2 cut global ("gb_casino_heist_planning")
-DCCg3 = 1972483 + 1497 + 736 + 92 + 3 -- diamond casino player 3 cut global ("gb_casino_heist_planning")
-DCCg4 = 1972483 + 1497 + 736 + 92 + 4 -- diamond casino player 4 cut global ("gb_casino_heist_planning")
-DCAg = 10311 -- casino autograbber local 1
-DCAs = 10311 + 14 -- casino autograbber local 2
-DCFHl = 54118 -- diamond casino fingerprint hack local
-DCKHl = 55188 -- diamond casino keypad hack local
-DCDVDl1 = 10125 + 7 -- diamond casino drill vault door local 1 --("DLC_HEIST_MINIGAME_FLEECA_DRILLING_SCENE") in ("fm_mission_controller")
-DCDVDl2 = 10125 + 37 -- diamond casino drill vault door local 2 --("fm_mission_controller")
-DCLIVESL = 26234 + 1325 + 1 -- diamond casino team lives local found below if (eventData == -1248635465) in ("fm_mission_controller")
-DCXf1 = 19808
-DCXf2 = 19808 + 1062
-DCXf3 = 19808 + 1740 + 1
-DCXf4 = 19808 + 2686
-DCXf5 = 28722 + 1
-DCXf6 = 31981 + 1 + 68
-
--- Cayo Perico Heist
-CPRSl = 1578 -- cayo perico reload screen local
-CPCg1 = 1979291 + 831 + 56 + 1 -- cayo perico player 1 cut global --("heist_island_planning")
-CPCg2 = 1979291 + 831 + 56 + 2 -- cayo perico player 2 cut global --("heist_island_planning")
-CPCg3 = 1979291 + 831 + 56 + 3 -- cayo perico player 3 cut global --("heist_island_planning")
-CPCg4 = 1979291 + 831 + 56 + 4 -- cayo perico player 4 cut global --("heist_island_planning")
-CPFHl = 26217 -- cayo perico fingerprint hack local ("heist") in ("fm_mission_controller_2020")
-CPPCCl = 32349 + 3 -- cayo perico plasma cutter cut local ("DLC_H4_anims_glass_cutter_Sounds") in ("fm_mission_controller_2020")
-CPSTCl = 31109 -- cayo perico drainage pipe cut local ("IntroFinished") in ("fm_mission_controller_2020")
-CPXf1 = 56070 -- cayo perico instant finish local 1
-CPXf2 = 56070 + 1776 + 1 -- cayo perico instant finish local 2
-CPLIVESL = 62851 + 1109 + 1 -- Cayo Perico team lives local found below if (eventData == -1248635465) in ("fm_mission_controller_2020")
-
--- Doomsday Heist
-DDSHl = 1312 + 135 -- doomsday doomsday scenario hack local
-DCg1 = 1968511 + 812 + 50 + 1 -- doomsday player 1 cut global --("gb_gang_ops_planning")
-DCg2 = 1968511 + 812 + 50 + 2 -- doomsday player 2 cut global --("gb_gang_ops_planning")
-DCg3 = 1968511 + 812 + 50 + 3 -- doomsday player 3 cut global --("gb_gang_ops_planning")
-DCg4 = 1968511 + 812 + 50 + 4 -- doomsday player 4 cut global --("gb_gang_ops_planning")
-GCg = 2686119 + 6791 -- global cut global (value2 = value2 * (num / 100f);)
-DDIF1 = 19808 -- doomsday instant finish local 1
-DDIF2 = 19808 + 1740 + 1 -- doomsday instant finish local 2
-DDIF3 = 28722 + 1 -- doomsday instant finish local 3
-DDIF4 = 31981 + 1 + 68 -- doomsday instant finish local 4
-DDIF5 = 31981 + 97 -- doomsday instant finish local 5
-DDLIVESL = 26234 + 1325 + 1 -- Doomsday team lives local found below if (eventData == -1248635465) in ("fm_mission_controller")
-
--- Kortz Center Heist
-KCBRL = 597 -- kortz center reload board local -- ("kortz_planning") -- above 2nd ("(NETWORK::NETWORK_IS_ACTIVITY_SESSION()")
-KCDCL = 1386 -- Data crack local (1386 + 1 + (i * 4) for i = 0-7) [+1 skips array size]
-KCFHL = 26464 -- Fingerprint hack local
-KCAC_BASE = 32416 + 1 -- Access code base (32416 + 1 + (i * 2) for i = 0-2)
-KCLGL = 70472 -- Lasers local
-KCVLL = 27512 -- Vault door local
-KCCGL_BASE = 32453 + 1 -- Cut glass base (32453 + 1 + (i * 13) + 3 for i = 0-4) [+1 skips array size]
-KCCGL_OFFSET = 3 -- Cut glass offset
-
--- Target State Locals
-KCPT_STATE = 28953 + 11 -- Primary target state (10/15/17 = available, 3 = taken)
-KCST_STATE = 28953 + 11 -- Secondary target state (3 = available)
-
--- Global Variables
-KCBGL = FMg + 37438 -- Bag size global
-KCWMG = FMg + 38199 -- Weekly multiplier global
-KCCDG = FMg + 38102 -- Cooldown normal global
-KCCD2G = FMg + 38103 -- Cooldown hard mode global
-KCLDG = 1935234 -- Lasers disable global
-KCSECONDARY_BASE = 4980736 + 1 + 29174 -- Secondary targets base (4980736 + 1 + 29174 + (i * 333) + 68/143) [+1 skips array size]
-KCPAYOUT_BASE = FMg + 37405 -- Primary target payout base
-
--- Lives
-KCLIVESL = 63515 + 1109 + 1 -- Team lives local
-
-KCIf1 = 56716 + 1 -- kortz center instant finish local 1
-KCIf2 = 56716 + 1776 + 1 -- kortz center instant finish local 2
-
--- Agency Variables
-AGFl1 = 56070 + 1
-AGFl2 = 56070 + 1776 + 1
-
--- Auto Shop variables
-ASIFl1 = 56070 + 1 -- auto shop instant finish local 1
-ASIFl2 = 56070 + 1776 + 1 -- auto shop finish local 2
-ASRBl = 416 -- auto shop reload board local
-
--- Salvage Yard
-SYRl1 = 545 -- salvage yard reload board local
-
--- Heists Meta
-HGLs1 = 4718592 + 3769
-HGLs2 = 4718592 + 3772
-HGLs3 = 4718592 + 3773
-HGLs4 = 4718592 + 190163 + 1
-HGGs1 = 20194 + 34
-HGGs2 = 20194 + 15
-
-IHPB = 56070 --Instant Heist Passed Local Base (Casino And CayoPerico)
-IHPL = 56070 + 1776 + 1 --Instant Heist Passed Locals (Casino And CayoPerico)
-
-NLCl = 213 + 32 + 19 + 1 --("nightclub_office_cutscene") in ("am_mp_nightclub")
-
-SNOW = FMg + 4413
-
-halloweatherAddress = FMg + 32247
-
-yetihuntAddress = FMg + 35041
-
-TRICK_OR_TREAT = FMg + 32173 --("COLLECTABLES_TRICK_OR_TREAT") in ("tuneables_processing")
-
-SNOWMEN_COLLECTIBLES = FMg + 33317 --("COLLECTABLES_SNOWMEN") in ("tuneables_processing")
-
---GUN VAN VARIABLES-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-GVADg = FMg + 33392
-GVWDg = FMg + 33373
-GVTDg = FMg + 33384
-
---CCBL = Casino Chips Buy Limit-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-CCBL0 = FMg + 26623
-CCBL1 = FMg + 26624
-
---BAS=Bag Size------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-CPBg = FMg + 29300
-
---PSV=Panther Statue-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-PSV = FMg + 29552
-
---PDIAMOND=Pink Diamond---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-PDIAMOND = FMg + 29550
-
---BB=Bearer Bonds---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-BB = FMg + 29549
-
---RN=Ruby Necklace--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-RN = FMg + 29548
-
---TEQUILA=Tequila---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-TEQUILA = FMg + 29547
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
---Required Stats----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- GTA V global and script-local addresses are loaded from game_offsets.lua.
 
 function MPX()
     local PI = stats.get_int("MPPLY_LAST_MP_CHAR")
@@ -576,11 +395,6 @@ end
 function null() end
 
 --Required Scripts--
-
-FMC = "fm_mission_controller"
-FMMCL = "fmmc_launcher"
-FMC2020 = "fm_mission_controller_2020"
-HIP = "heist_island_planning"
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 L7NEG = gui.get_tab("Ultimate Menu 1.73 By L7NEG")
@@ -621,9 +435,9 @@ script.register_looped("RemoveTransactionError", function(script)
         return
     end
     if RTPT:is_enabled() then
-        globals.set_int(4516981, 0)
-        globals.set_int(4516982, 0)
-        globals.set_int(4516983, 0)
+        globals.set_int(TRANSACTION_ERROR_GLOBAL_1, 0)
+        globals.set_int(TRANSACTION_ERROR_GLOBAL_2, 0)
+        globals.set_int(TRANSACTION_ERROR_GLOBAL_3, 0)
     end
 end)
 
@@ -1026,11 +840,7 @@ ensureOnlineGuard(CasinoServicesMenu)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-local cslots = "casino_slots"
-slots_random_results_table = 1379
-prize_wheel_win_state = 309
-prize_wheel_prize = 14
-prize_wheel_prize_state = 45
+local cslots = CASINO_SLOTS
 
 CasinoServicesMenu:add_text("Casino Chips")
 chipsVal = 1800
@@ -1082,62 +892,62 @@ CasinoServicesMenu:add_text("Lucky Wheel")
 
 CasinoServicesMenu:add_button("Give Podium Vehicle", function()
     script.run_in_fiber(function(script)
-        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat("casino_lucky_wheel")) ~= 0 then
-            locals.set_int("casino_lucky_wheel", prize_wheel_win_state + prize_wheel_prize, 18)
-            locals.set_int("casino_lucky_wheel", prize_wheel_win_state + prize_wheel_prize_state, 11)
+        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat(CASINO_LUCKY_WHEEL)) ~= 0 then
+            locals.set_int(CASINO_LUCKY_WHEEL, prize_wheel_win_state + prize_wheel_prize, 18)
+            locals.set_int(CASINO_LUCKY_WHEEL, prize_wheel_win_state + prize_wheel_prize_state, 11)
         end
     end)
 end)
 CasinoServicesMenu:add_sameline()
 CasinoServicesMenu:add_button("Give Mystery Prize", function()
     script.run_in_fiber(function(script)
-        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat("casino_lucky_wheel")) ~= 0 then
-            locals.set_int("casino_lucky_wheel", prize_wheel_win_state + prize_wheel_prize, 11)
-            locals.set_int("casino_lucky_wheel", prize_wheel_win_state + prize_wheel_prize_state, 11)
+        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat(CASINO_LUCKY_WHEEL)) ~= 0 then
+            locals.set_int(CASINO_LUCKY_WHEEL, prize_wheel_win_state + prize_wheel_prize, 11)
+            locals.set_int(CASINO_LUCKY_WHEEL, prize_wheel_win_state + prize_wheel_prize_state, 11)
         end
     end)
 end)
 CasinoServicesMenu:add_sameline()
 CasinoServicesMenu:add_button("Give $50,000", function()
     script.run_in_fiber(function(script)
-        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat("casino_lucky_wheel")) ~= 0 then
-            locals.set_int("casino_lucky_wheel", prize_wheel_win_state + prize_wheel_prize, 19)
-            locals.set_int("casino_lucky_wheel", prize_wheel_win_state + prize_wheel_prize_state, 11)
+        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat(CASINO_LUCKY_WHEEL)) ~= 0 then
+            locals.set_int(CASINO_LUCKY_WHEEL, prize_wheel_win_state + prize_wheel_prize, 19)
+            locals.set_int(CASINO_LUCKY_WHEEL, prize_wheel_win_state + prize_wheel_prize_state, 11)
         end
     end)
 end)
 CasinoServicesMenu:add_sameline()
 CasinoServicesMenu:add_button("Give 25,000 Chips", function()
     script.run_in_fiber(function(script)
-        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat("casino_lucky_wheel")) ~= 0 then
-            locals.set_int("casino_lucky_wheel", prize_wheel_win_state + prize_wheel_prize, 15)
-            locals.set_int("casino_lucky_wheel", prize_wheel_win_state + prize_wheel_prize_state, 11)
+        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat(CASINO_LUCKY_WHEEL)) ~= 0 then
+            locals.set_int(CASINO_LUCKY_WHEEL, prize_wheel_win_state + prize_wheel_prize, 15)
+            locals.set_int(CASINO_LUCKY_WHEEL, prize_wheel_win_state + prize_wheel_prize_state, 11)
         end
     end)
 end)
 CasinoServicesMenu:add_button("Give 15,000RP", function()
     script.run_in_fiber(function(script)
-        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat("casino_lucky_wheel")) ~= 0 then
-            locals.set_int("casino_lucky_wheel", prize_wheel_win_state + prize_wheel_prize, 17)
-            locals.set_int("casino_lucky_wheel", prize_wheel_win_state + prize_wheel_prize_state, 11)
+        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat(CASINO_LUCKY_WHEEL)) ~= 0 then
+            locals.set_int(CASINO_LUCKY_WHEEL, prize_wheel_win_state + prize_wheel_prize, 17)
+            locals.set_int(CASINO_LUCKY_WHEEL, prize_wheel_win_state + prize_wheel_prize_state, 11)
         end
     end)
 end)
 CasinoServicesMenu:add_sameline()
 CasinoServicesMenu:add_button("Give Discount", function()
     script.run_in_fiber(function(script)
-        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat("casino_lucky_wheel")) ~= 0 then
-            locals.set_int("casino_lucky_wheel", prize_wheel_win_state + prize_wheel_prize, 4)
-            locals.set_int("casino_lucky_wheel", prize_wheel_win_state + prize_wheel_prize_state, 11)
+        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat(CASINO_LUCKY_WHEEL)) ~= 0 then
+            locals.set_int(CASINO_LUCKY_WHEEL, prize_wheel_win_state + prize_wheel_prize, 4)
+            locals.set_int(CASINO_LUCKY_WHEEL, prize_wheel_win_state + prize_wheel_prize_state, 11)
         end
     end)
 end)
 CasinoServicesMenu:add_sameline()
 CasinoServicesMenu:add_button("Give Clothing", function()
     script.run_in_fiber(function(script)
-        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat("casino_lucky_wheel")) ~= 0 then
-            locals.set_int("casino_lucky_wheel", prize_wheel_win_state + prize_wheel_prize, 8)
-            locals.set_int("casino_lucky_wheel", prize_wheel_win_state + prize_wheel_prize_state, 11)
+        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(joaat(CASINO_LUCKY_WHEEL)) ~= 0 then
+            locals.set_int(CASINO_LUCKY_WHEEL, prize_wheel_win_state + prize_wheel_prize, 8)
+            locals.set_int(CASINO_LUCKY_WHEEL, prize_wheel_win_state + prize_wheel_prize_state, 11)
         end
     end)
 end)
@@ -3174,7 +2984,6 @@ end)
 AcMenu = CSU:add_tab("Achievements")
 
 Acv0 = false
-AG = 4525223 + 1 --("CHEAT_ACHIEVE")
 
 AcMenu:add_imgui(function()
     if isOffline() then
@@ -3429,10 +3238,6 @@ end)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-local current_objectives_global = 2359296 --("am_challenges")
-local weekly_objectives_global = 2732111 --("am_challenges")
-local objectives_state_global = 1574746 --("am_challenges")
-
 FAUT:add_imgui(function()
     if isOffline() then
         return
@@ -3441,13 +3246,13 @@ FAUT:add_imgui(function()
         script.run_in_fiber(function(script)
             for i = 0, 2 do --Unlock all daily rewards.
                 local objective =
-                    globals.get_int(current_objectives_global + (1 + (0 * 5574)) + 681 + 4248 + (1 + (i * 3)))
-                globals.set_int(objectives_state_global + 1 + (1 + (i * 1)), objective)
+                    globals.get_int(DAILY_OBJECTIVE_CURRENT(i))
+                globals.set_int(DAILY_OBJECTIVE_STATE(i), objective)
             end
             globals.set_int(objectives_state_global, 1)
             globals.set_int(
-                weekly_objectives_global + (1 + (0 * 6)) + 1,
-                globals.get_int(weekly_objectives_global + (1 + (0 * 6)) + 2)
+                WEEKLY_OBJECTIVE_STATE(),
+                globals.get_int(WEEKLY_OBJECTIVE_CURRENT())
             ) --Unlock Weekly Objective
             gui.show_message("Challenges", "All Daily And Weekly Challenges Are Now Completed.")
         end)
@@ -3508,16 +3313,6 @@ AirCargoMenu = makeOnlineTab(BusinessesMenu:add_tab("Air Cargo Menu"))
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-CARGO1 = FMg + 22581
-CARGO2 = FMg + 22582
-CARGO3 = FMg + 22583
-CARGO4 = FMg + 22584
-CARGO5 = FMg + 22585
-CARGO6 = FMg + 22586
-CARGO7 = FMg + 22587
-CARGO8 = FMg + 22588
-CARGO9 = FMg + 22589
-
 local hanvalue = AirCargoMenu:add_input_int("Crate Value")
 
 AirCargoMenu:add_button("Set Value", function()
@@ -3546,9 +3341,9 @@ script.register_looped("RonCutRemover", function(script)
         return
     end
     if RCRT:is_enabled() then
-        globals.set_float(FMg + 22564, 0)
+        globals.set_float(AIR_CARGO_RP_MULTIPLIER_GLOBAL, 0)
     else
-        globals.set_float(FMg + 22564, 0.025)
+        globals.set_float(AIR_CARGO_RP_MULTIPLIER_GLOBAL, 0.025)
     end
 end)
 
@@ -3564,9 +3359,9 @@ script.register_looped("PlayerRPGainDisabler", function(script)
         return
     end
     if PRPGD:is_enabled() then
-        globals.set_float(FMg + 1, 0)
+        globals.set_float(PLAYER_RP_MULTIPLIER_GLOBAL, 0)
     else
-        globals.set_float(FMg + 1, 1)
+        globals.set_float(PLAYER_RP_MULTIPLIER_GLOBAL, 1)
     end
 end)
 
@@ -3607,22 +3402,6 @@ CeoManagerMenu = makeOnlineTab(UseAtYourOwnRiskMenu:add_tab("Ceo Manager Menu"))
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-CEO1 = FMg + 15821 --("EXEC_CONTRABAND_SALE_VALUE_THRESHOLD1")
-CEO2 = FMg + 15588 --("EXEC_BUY_COOLDOWN")
-CEO3 = FMg + 15589 --("EXEC_SELL_COOLDOWN")
-SMC1 = 574 + 1 --("gb_contraband_sell")
-SMC2 = 574 + 7 --("gb_contraband_sell")
-SMC3 = 574 + 584 --("gb_contraband_sell")
-SMC4 = 574 + 55 --("gb_contraband_sell")
-SMC5 = 574 + 595 --("gb_contraband_sell")
-SMC6 = 589 --("Popup_Confirm_Success") in ("appsecuroserv")
-SMC7 = 770 --("MP_WH_SELL") or ("WH_MFREASON_12") in ("appsecuroserv")
-SMC8 = 771 --("MP_WH_SELL") or ("WH_MFREASON_12") in ("appsecuroserv")
-SMC9 = 632 + 5 --("SPEECH_PARAMS_SHOUTED_CRITICAL") in ("gb_contraband_buy")
-SMC10 = 632 + 1 --func_91() in ("gb_contraband_buy")
-SMC11 = 632 + 191 --("gb_contraband_buy")
-SMC12 = 632 + 192 --("gb_contraband_buy")
-
 local cs = "appsecuroserv"
 
 local ci = "gb_contraband_sell"
@@ -3650,9 +3429,9 @@ PRPGD = CeoManagerMenu:add_checkbox("Disable Player RP Gain")
 script.register_looped("PlayerRPGainDisabler", function(script)
     script:yield()
     if PRPGD:is_enabled() then
-        globals.set_float(FMg + 1, 0)
+        globals.set_float(PLAYER_RP_MULTIPLIER_GLOBAL, 0)
     else
-        globals.set_float(FMg + 1, 1)
+        globals.set_float(PLAYER_RP_MULTIPLIER_GLOBAL, 1)
     end
 end)
 
@@ -3674,7 +3453,7 @@ script.register_looped("yimceoloop", function(script)
     globals.set_int(CEO3, 0)
 
     if checkbox:is_enabled() == true then
-        if locals.get_int(ci, 2) == 1 then
+        if locals.get_int(ci, SCRIPT_STATE) == 1 then
             locals.set_int(ci, SMC5, 1)
             locals.set_int(ci, SMC4, 0)
             locals.set_int(ci, SMC3, 0)
@@ -3682,7 +3461,7 @@ script.register_looped("yimceoloop", function(script)
             script:sleep(500)
             locals.set_int(ci, SMC1, 99999)
         end
-        if locals.get_int(cs, 2) == 1 then
+        if locals.get_int(cs, SCRIPT_STATE) == 1 then
             script:sleep(500)
             locals.set_int(cs, SMC8, 1)
             script:sleep(200)
@@ -3691,16 +3470,16 @@ script.register_looped("yimceoloop", function(script)
             locals.set_int(cs, SMC6, 3012)
             script:sleep(1000)
         end
-        if locals.get_int(cb, 2) == 1 then
+        if locals.get_int(cb, SCRIPT_STATE) == 1 then
             locals.set_int(cb, SMC9, 1)
             locals.set_int(cb, SMC10, 111)
             locals.set_int(cb, SMC11, 6)
             locals.set_int(cb, SMC12, 4)
             gui.show_message("Your Warehouse is now full! 111/111 Crates")
         end
-        if locals.get_int(ci, 2) ~= 1 then
+        if locals.get_int(ci, SCRIPT_STATE) ~= 1 then
             script:sleep(500)
-            if locals.get_int(am, 2) == 1 then
+            if locals.get_int(am, SCRIPT_STATE) == 1 then
                 SCRIPT.REQUEST_SCRIPT("appsecuroserv")
                 SYSTEM.START_NEW_SCRIPT("appsecuroserv", 8344)
                 SCRIPT.SET_SCRIPT_AS_NO_LONGER_NEEDED("appsecuroserv")
@@ -3715,9 +3494,6 @@ end)
 NightClubSafeMenu = makeOnlineTab(UseAtYourOwnRiskMenu:add_tab("NightClub Safe Loop Menu"))
 
 SafeAmount = 300000
-SafeCapacity = 23769 --NIGHTCLUBMAXSAFEVALUE
-IncomeStart = 23746 --NIGHTCLUBINCOMEUPTOPOP5
-IncomeEnd = 23765 --NIGHTCLUBINCOMEUPTOPOP100
 
 NCRSCB = NightClubSafeMenu:add_checkbox("Enable Nitghtclub $300k/5s (Safe Remote AFK)")
 script.register_looped("nightclubremotelooptest", function(script)
@@ -3729,7 +3505,7 @@ script.register_looped("nightclubremotelooptest", function(script)
         return
     end
     if NCRSCB:is_enabled() == true then
-        SafeValue = 1845298 + self.get_id() + 260 + 364 + 5 --("am_mp_nightclub") or we can just use TUNEABLE: NIGHTCLUBMAXSAFEVALUE
+        SafeValue = NIGHTCLUB_SAFE_VALUE(self.get_id()) --("am_mp_nightclub") or we can just use TUNEABLE: NIGHTCLUBMAXSAFEVALUE
         for i = IncomeStart, IncomeEnd do
             globals.set_int(FMg + i, SafeAmount)
         end
@@ -3739,9 +3515,9 @@ script.register_looped("nightclubremotelooptest", function(script)
         if globals.get_int(SafeValue) ~= 0 then
         end
         locals.set_int("am_mp_nightclub", NLCl, 1)
-        globals.set_int(4516981, 0)
-        globals.set_int(4516982, 0)
-        globals.set_int(4516983, 0)
+        globals.set_int(TRANSACTION_ERROR_GLOBAL_1, 0)
+        globals.set_int(TRANSACTION_ERROR_GLOBAL_2, 0)
+        globals.set_int(TRANSACTION_ERROR_GLOBAL_3, 0)
         script:sleep(2500)
     end
 end)
@@ -4019,7 +3795,7 @@ script.register_looped("Gun Van", function()
     then
         return
     end
-    gun_van_loc = globals.get_int(2652581 + 2706)
+    gun_van_loc = globals.get_int(GUN_VAN_LOCATION_GLOBAL)
 
     if is_typing then
         PAD.DISABLE_ALL_CONTROL_ACTIONS(0)
@@ -4030,10 +3806,10 @@ script.register_looped("Gun Van", function()
     end
 
     if livery_lock then
-        local value = locals.get_int("gunclub_shop", 206 + 747)
+        local value = locals.get_int("gunclub_shop", GUNCLUB_LIVERY)
         if value ~= nil then
             value = value | (1 << 8)
-            locals.set_int("gunclub_shop", 206 + 747, value)
+            locals.set_int("gunclub_shop", GUNCLUB_LIVERY, value)
         end
     end
 
@@ -4060,7 +3836,7 @@ GVMENU:add_imgui(function()
     ImGui.SameLine()
 
     if ImGui.Button("Set New Gun Van Location") then
-        globals.set_int(2652581 + 2706, selected_loc)
+        globals.set_int(GUN_VAN_LOCATION_GLOBAL, selected_loc)
     end
 
     ImGui.SameLine()
@@ -4088,10 +3864,10 @@ GVMENU:add_imgui(function()
 
     if on_tick then
         if not livery_lock then
-            local value = locals.get_int("gunclub_shop", 206 + 747)
+            local value = locals.get_int("gunclub_shop", GUNCLUB_LIVERY)
             if value ~= nil then
                 value = value & ~(1 << 8)
-                locals.set_int("gunclub_shop", 206 + 747, value)
+                locals.set_int("gunclub_shop", GUNCLUB_LIVERY, value)
             end
         end
     end
@@ -4517,7 +4293,7 @@ function YimConfig(DEFAULT_CONFIG)
         _version = "1.0.0",
         _credits = [[
 
-        ¤ Universal Config System For YimMenu-Lua ¤
+        Â¤ Universal Config System For YimMenu-Lua Â¤
 
       - Original code written by Harmless: https://github.com/harmless05
 
@@ -4787,7 +4563,6 @@ weedTotal = 0
 fdTotal = 0
 bunkerTotal = 0
 acidTotal = 0
-main_global = 1673807
 cashUpdgrade1 = CFG.read("cashUpdgrade1")
 cashUpdgrade2 = CFG.read("cashUpdgrade2")
 cokeUpdgrade1 = CFG.read("cokeUpdgrade1")
@@ -4935,7 +4710,7 @@ yim_resupplier:add_imgui(function()
                 if math.ceil(cashSupply) < 100 then
                     ImGui.SameLine()
                     if ImGui.Button(" Fill ##FakeCash") then
-                        globals.set_int(main_global + 0 + 1, 1)
+                        globals.set_int(YIM_RESUPPLIER_SLOT(0), 1)
                     end
                     ImGui.SameLine()
                     ImGui.Dummy(5, 1)
@@ -4965,7 +4740,7 @@ yim_resupplier:add_imgui(function()
                 if math.ceil(cokeSupply) < 100 then
                     ImGui.SameLine()
                     if ImGui.Button(" Fill ##Cocaine") then
-                        globals.set_int(main_global + 4 + 1, 1)
+                        globals.set_int(YIM_RESUPPLIER_SLOT(4), 1)
                     end
                     ImGui.SameLine()
                     ImGui.Dummy(5, 1)
@@ -4995,7 +4770,7 @@ yim_resupplier:add_imgui(function()
                 if math.ceil(methSupply) < 100 then
                     ImGui.SameLine()
                     if ImGui.Button(" Fill ##Meth") then
-                        globals.set_int(main_global + 2 + 1, 1)
+                        globals.set_int(YIM_RESUPPLIER_SLOT(2), 1)
                     end
                     ImGui.SameLine()
                     ImGui.Dummy(5, 1)
@@ -5025,7 +4800,7 @@ yim_resupplier:add_imgui(function()
                 if math.ceil(weedSupply) < 100 then
                     ImGui.SameLine()
                     if ImGui.Button(" Fill ##Weed") then
-                        globals.set_int(main_global + 3 + 1, 1)
+                        globals.set_int(YIM_RESUPPLIER_SLOT(3), 1)
                     end
                     ImGui.SameLine()
                     ImGui.Dummy(5, 1)
@@ -5053,7 +4828,7 @@ yim_resupplier:add_imgui(function()
                 if math.ceil(dfSupply) < 100 then
                     ImGui.SameLine()
                     if ImGui.Button(" Fill ##DocumentForgery") then
-                        globals.set_int(main_global + 1 + 1, 1)
+                        globals.set_int(YIM_RESUPPLIER_SLOT(1), 1)
                     end
                     ImGui.SameLine()
                     ImGui.Dummy(5, 1)
@@ -5083,7 +4858,7 @@ yim_resupplier:add_imgui(function()
                 if math.ceil(bunkerSupply) < 100 then
                     ImGui.SameLine()
                     if ImGui.Button(" Fill ##Bunker") then
-                        globals.set_int(main_global + 5 + 1, 1)
+                        globals.set_int(YIM_RESUPPLIER_SLOT(5), 1)
                     end
                     ImGui.SameLine()
                     ImGui.Dummy(5, 1)
@@ -5113,7 +4888,7 @@ yim_resupplier:add_imgui(function()
                 if math.ceil(acidSupply) < 100 then
                     ImGui.SameLine()
                     if ImGui.Button(" Fill ##AcidLab") then
-                        globals.set_int(main_global + 6 + 1, 1)
+                        globals.set_int(YIM_RESUPPLIER_SLOT(6), 1)
                     end
                     ImGui.SameLine()
                     ImGui.Dummy(5, 1)
@@ -5176,27 +4951,27 @@ yim_resupplier:add_imgui(function()
             local wh4Supplies = stats.get_int(MPX() .. "CONTOTALFORWHOUSE3") or 0
             local wh5Supplies = stats.get_int(MPX() .. "CONTOTALFORWHOUSE4") or 0
             if wh1Supplies ~= nil and wh1Supplies > 0 then
-                wh1Value = (globals.get_int(262145 + (getCEOvalue_G(wh1Supplies))))
+                wh1Value = (globals.get_int(FMg + (getCEOvalue_G(wh1Supplies))))
             else
                 wh1Value = 0
             end
             if wh2Supplies ~= nil and wh2Supplies > 0 then
-                wh2Value = (globals.get_int(262145 + (getCEOvalue_G(wh2Supplies))))
+                wh2Value = (globals.get_int(FMg + (getCEOvalue_G(wh2Supplies))))
             else
                 wh2Value = 0
             end
             if wh3Supplies ~= nil and wh3Supplies > 0 then
-                wh3Value = (globals.get_int(262145 + (getCEOvalue_G(wh3Supplies))))
+                wh3Value = (globals.get_int(FMg + (getCEOvalue_G(wh3Supplies))))
             else
                 wh3Value = 0
             end
             if wh4Supplies ~= nil and wh4Supplies > 0 then
-                wh4Value = (globals.get_int(262145 + (getCEOvalue_G(wh4Supplies))))
+                wh4Value = (globals.get_int(FMg + (getCEOvalue_G(wh4Supplies))))
             else
                 wh4Value = 0
             end
             if wh5Supplies ~= nil and wh5Supplies > 0 then
-                wh5Value = (globals.get_int(262145 + (getCEOvalue_G(wh5Supplies))))
+                wh5Value = (globals.get_int(FMg + (getCEOvalue_G(wh5Supplies))))
             else
                 wh5Value = 0
             end
@@ -5239,17 +5014,17 @@ yim_resupplier:add_imgui(function()
                     CFG.save("cashUpdgrade2", cashUpdgrade2)
                 end
                 if cashUpdgrade1 then
-                    cashOffset1 = globals.get_int(262145 + 17415)
+                    cashOffset1 = globals.get_int(NIGHTCLUB_CASH_BONUS_1)
                 else
                     cashOffset1 = 0
                 end
                 if cashUpdgrade2 then
-                    cashOffset2 = globals.get_int(262145 + 17421)
+                    cashOffset2 = globals.get_int(NIGHTCLUB_CASH_BONUS_2)
                 else
                     cashOffset2 = 0
                 end
                 local cashProduct = stats.get_int(MPX() .. "PRODTOTALFORFACTORY0") or 0
-                cashTotal = ((globals.get_int(262145 + 17409) + cashOffset1 + cashOffset2) * cashProduct)
+                cashTotal = ((globals.get_int(NIGHTCLUB_CASH_BASE) + cashOffset1 + cashOffset2) * cashProduct)
                 ImGui.Text("Product:")
                 ImGui.SameLine()
                 ImGui.Dummy(5, 1)
@@ -5282,17 +5057,17 @@ yim_resupplier:add_imgui(function()
                     CFG.save("cokeUpdgrade2", cokeUpdgrade2)
                 end
                 if cokeUpdgrade1 then
-                    cokeOffset1 = globals.get_int(262145 + 17416)
+                    cokeOffset1 = globals.get_int(NIGHTCLUB_COKE_BONUS_1)
                 else
                     cokeOffset1 = 0
                 end
                 if cokeUpdgrade2 then
-                    cokeOffset2 = globals.get_int(262145 + 17422)
+                    cokeOffset2 = globals.get_int(NIGHTCLUB_COKE_BONUS_2)
                 else
                     cokeOffset2 = 0
                 end
                 local cokeProduct = stats.get_int(MPX() .. "PRODTOTALFORFACTORY1") or 0
-                cokeTotal = ((globals.get_int(262145 + 17410) + cokeOffset1 + cokeOffset2) * cokeProduct)
+                cokeTotal = ((globals.get_int(NIGHTCLUB_COKE_BASE) + cokeOffset1 + cokeOffset2) * cokeProduct)
                 ImGui.Text("Product:")
                 ImGui.SameLine()
                 ImGui.Dummy(5, 1)
@@ -5325,17 +5100,17 @@ yim_resupplier:add_imgui(function()
                     CFG.save("methUpdgrade2", methUpdgrade2)
                 end
                 if methUpdgrade1 then
-                    methOffset1 = globals.get_int(262145 + 17417)
+                    methOffset1 = globals.get_int(NIGHTCLUB_METH_BONUS_1)
                 else
                     methOffset1 = 0
                 end
                 if methUpdgrade2 then
-                    methOffset2 = globals.get_int(262145 + 17423)
+                    methOffset2 = globals.get_int(NIGHTCLUB_METH_BONUS_2)
                 else
                     methOffset2 = 0
                 end
                 local methProduct = stats.get_int(MPX() .. "PRODTOTALFORFACTORY2") or 0
-                methTotal = ((globals.get_int(262145 + 17411) + methOffset1 + methOffset2) * methProduct)
+                methTotal = ((globals.get_int(NIGHTCLUB_METH_BASE) + methOffset1 + methOffset2) * methProduct)
                 ImGui.Text("Product:")
                 ImGui.SameLine()
                 ImGui.Dummy(5, 1)
@@ -5368,17 +5143,17 @@ yim_resupplier:add_imgui(function()
                     CFG.save("weedUpdgrade2", weedUpdgrade2)
                 end
                 if weedUpdgrade1 then
-                    weedOffset1 = globals.get_int(262145 + 17418)
+                    weedOffset1 = globals.get_int(NIGHTCLUB_WEED_BONUS_1)
                 else
                     weedOffset1 = 0
                 end
                 if weedUpdgrade2 then
-                    weedOffset2 = globals.get_int(262145 + 17424)
+                    weedOffset2 = globals.get_int(NIGHTCLUB_WEED_BONUS_2)
                 else
                     weedOffset2 = 0
                 end
                 local weedProduct = stats.get_int("MPX_PRODTOTALFORFACTORY3")
-                weedTotal = ((globals.get_int(262145 + 17412) + weedOffset1 + weedOffset2) * weedProduct)
+                weedTotal = ((globals.get_int(NIGHTCLUB_WEED_BASE) + weedOffset1 + weedOffset2) * weedProduct)
                 ImGui.Text("Product:")
                 ImGui.SameLine()
                 ImGui.Dummy(5, 1)
@@ -5411,17 +5186,17 @@ yim_resupplier:add_imgui(function()
                     CFG.save("fdUpdgrade2", fdUpdgrade2)
                 end
                 if fdUpdgrade1 then
-                    fdOffset1 = globals.get_int(262145 + 17414)
+                    fdOffset1 = globals.get_int(NIGHTCLUB_DOCUMENTS_BONUS_1)
                 else
                     fdOffset1 = 0
                 end
                 if fdUpdgrade2 then
-                    fdOffset2 = globals.get_int(262145 + 17420)
+                    fdOffset2 = globals.get_int(NIGHTCLUB_DOCUMENTS_BONUS_2)
                 else
                     fdOffset2 = 0
                 end
                 local fdProduct = stats.get_int("MPX_PRODTOTALFORFACTORY4")
-                fdTotal = ((globals.get_int(262145 + 17408) + fdOffset1 + fdOffset2) * fdProduct)
+                fdTotal = ((globals.get_int(NIGHTCLUB_DOCUMENTS_BASE) + fdOffset1 + fdOffset2) * fdProduct)
                 ImGui.Text("Product:")
                 ImGui.SameLine()
                 ImGui.Dummy(5, 1)
@@ -5454,17 +5229,17 @@ yim_resupplier:add_imgui(function()
                     CFG.save("bunkerUpdgrade2", bunkerUpdgrade2)
                 end
                 if bunkerUpdgrade1 then
-                    bunkerOffset1 = globals.get_int(262145 + 21345)
+                    bunkerOffset1 = globals.get_int(NIGHTCLUB_BUNKER_BONUS_1)
                 else
                     bunkerOffset1 = 0
                 end
                 if bunkerUpdgrade2 then
-                    bunkerOffset2 = globals.get_int(262145 + 21344)
+                    bunkerOffset2 = globals.get_int(NIGHTCLUB_BUNKER_BONUS_2)
                 else
                     bunkerOffset2 = 0
                 end
                 local bunkerProduct = stats.get_int("MPX_PRODTOTALFORFACTORY5")
-                bunkerTotal = ((globals.get_int(262145 + 21343) + bunkerOffset1 + bunkerOffset2) * bunkerProduct)
+                bunkerTotal = ((globals.get_int(NIGHTCLUB_BUNKER_BASE) + bunkerOffset1 + bunkerOffset2) * bunkerProduct)
                 ImGui.Text("Product:")
                 ImGui.SameLine()
                 ImGui.Dummy(5, 1)
@@ -5492,12 +5267,12 @@ yim_resupplier:add_imgui(function()
                     CFG.save("acidUpdgrade", acidUpdgrade)
                 end
                 if acidUpdgrade then
-                    acidOffset = globals.get_int(262145 + 17419)
+                    acidOffset = globals.get_int(NIGHTCLUB_ACID_BONUS)
                 else
                     acidOffset = 0
                 end
                 local acidProduct = stats.get_int("MPX_PRODTOTALFORFACTORY6")
-                acidTotal = ((globals.get_int(262145 + 17413) + acidOffset) * acidProduct)
+                acidTotal = ((globals.get_int(NIGHTCLUB_ACID_BASE) + acidOffset) * acidProduct)
                 ImGui.Text("Product:")
                 ImGui.SameLine()
                 ImGui.Dummy(5, 1)
@@ -5536,7 +5311,7 @@ yim_resupplier:add_imgui(function()
             if stats.get_int("MPX_PROP_NIGHTCLUB") ~= 0 then
                 ImGui.Spacing()
                 ImGui.Spacing()
-                ImGui.Text("¤ Nightclub ¤")
+                ImGui.Text("Â¤ Nightclub Â¤")
                 if INTERIOR.GET_INTERIOR_FROM_ENTITY(self.get_ped()) == 0 then
                     ImGui.SameLine()
                     ImGui.Dummy(50, 1)
@@ -5577,7 +5352,7 @@ yim_resupplier:add_imgui(function()
             if stats.get_int("MPX_PROP_ARCADE") ~= 0 then
                 ImGui.Spacing()
                 ImGui.Spacing()
-                ImGui.Text("¤ Arcade ¤")
+                ImGui.Text("Â¤ Arcade Â¤")
                 if INTERIOR.GET_INTERIOR_FROM_ENTITY(self.get_ped()) == 0 then
                     ImGui.SameLine()
                     ImGui.Dummy(60, 1)
@@ -5604,7 +5379,7 @@ yim_resupplier:add_imgui(function()
             if stats.get_int("MPX_PROP_SECURITY_OFFICE") ~= 0 then
                 ImGui.Spacing()
                 ImGui.Spacing()
-                ImGui.Text("¤ Agency ¤")
+                ImGui.Text("Â¤ Agency Â¤")
                 if INTERIOR.GET_INTERIOR_FROM_ENTITY(self.get_ped()) == 0 then
                     ImGui.SameLine()
                     ImGui.Dummy(60, 1)
@@ -5631,7 +5406,7 @@ yim_resupplier:add_imgui(function()
             if stats.get_int("MPX_PROP_CLUBHOUSE") ~= 0 then
                 ImGui.Spacing()
                 ImGui.Spacing()
-                ImGui.Text("¤ MC Clubhouse ¤")
+                ImGui.Text("Â¤ MC Clubhouse Â¤")
                 if INTERIOR.GET_INTERIOR_FROM_ENTITY(self.get_ped()) == 0 then
                     ImGui.SameLine()
                     ImGui.Dummy(10, 1)
@@ -5658,7 +5433,7 @@ yim_resupplier:add_imgui(function()
             if stats.get_int("MPX_PROP_BAIL_OFFICE") ~= 0 then
                 ImGui.Spacing()
                 ImGui.Spacing()
-                ImGui.Text("¤ Bail Office ¤")
+                ImGui.Text("Â¤ Bail Office Â¤")
                 if INTERIOR.GET_INTERIOR_FROM_ENTITY(self.get_ped()) == 0 then
                     ImGui.SameLine()
                     ImGui.Dummy(40, 1)
@@ -5686,7 +5461,7 @@ yim_resupplier:add_imgui(function()
             if stats.get_int("MPX_SALVAGE_YARD_OWNED") ~= 0 then
                 ImGui.Spacing()
                 ImGui.Spacing()
-                ImGui.Text("¤ Salvage Yard ¤")
+                ImGui.Text("Â¤ Salvage Yard Â¤")
                 if INTERIOR.GET_INTERIOR_FROM_ENTITY(self.get_ped()) == 0 then
                     ImGui.SameLine()
                     ImGui.Dummy(20, 1)
@@ -5802,7 +5577,7 @@ ApartmentDataEditorMenu:add_text(
 )
 ApartmentDataEditorMenu:add_separator()
 ApartmentDataEditorMenu:add_button("Kill Cooldown", function()
-    globals.set_int(ACDg + 1 + (PLAYER.PLAYER_ID() * 77) + 76, -1)
+    globals.set_int(APARTMENT_COOLDOWN(PLAYER.PLAYER_ID()), -1)
     gui.show_message("Apartment Heist", "Cooldown should've been killed")
 end)
 ApartmentDataEditorMenu:add_sameline()
@@ -5896,7 +5671,7 @@ ApartmentDataEditorMenu:add_separator()
 local difficultyKeys = { "easy", "normal", "hard" }
 ApartmentDataEditorMenu:add_button("3mil Payout", function()
     script.run_in_fiber(function(ap)
-        local key = globals.get_int(ACDg + (PLAYER.PLAYER_ID() * 77) + 24 + 2)
+        local key = globals.get_int(APARTMENT_HEIST_TYPE(PLAYER.PLAYER_ID()))
         local difficultyG = globals.get_int(AHDg)
         local difficulty = difficultyKeys[difficultyG + 1]
         local cuts = heistCuts[difficulty][key]
@@ -5992,7 +5767,7 @@ ApartmentDataEditorMenu:add_button("Solo Launch", function()
         if locals.get_int("fmmc_launcher", HGGs1) ~= 0 then
             if locals.get_int("fmmc_launcher", HGGs1) > 1 then
                 locals.set_int("fmmc_launcher", HGGs2, 1)
-                globals.set_int(794989 + 4 + 1 + (locals.get_int("fmmc_launcher", HGGs1) * 95) + 75, 1)
+                globals.set_int(HEIST_SOLO_LAUNCH(locals.get_int("fmmc_launcher", HGGs1)), 1)
             end
             globals.set_int(HGLs1, 1)
             globals.set_int(HGLs2, 1)
@@ -6009,7 +5784,7 @@ ApartmentDataEditorMenu:add_button("Force Ready", function()
         network.force_script_host("fm_mission_controller")
         script:sleep(1000)
         for i = 1, 4 do
-            globals.set_int(2658291 + 1 + ((i - 1) * 468) + 270, 6)
+            globals.set_int(APARTMENT_FORCE_READY(i), 6)
         end
         gui.show_message("Apartment Heist", "Everyone should've been forced ready")
     end)
@@ -6019,7 +5794,7 @@ ApartmentDataEditorMenu:add_button("Instant Finish", function()
     script.run_in_fiber(function(script)
         network.force_script_host("fm_mission_controller")
         script:sleep(1000)
-        local heistType = globals.get_int(ACDg + (PLAYER.PLAYER_ID() * 77) + 24 + 2)
+        local heistType = globals.get_int(APARTMENT_HEIST_TYPE(PLAYER.PLAYER_ID()))
         if heistType == 1182286714 then
             locals.set_int("fm_mission_controller", AIFl2, 5)
             locals.set_int("fm_mission_controller", AIFl3, 80)
@@ -6712,7 +6487,7 @@ SN_Doomsday:add_button("Solo Launch", function()
         if locals.get_int("fmmc_launcher", HGGs1) ~= 0 then
             if locals.get_int("fmmc_launcher", HGGs1) > 1 then
                 locals.set_int("fmmc_launcher", HGGs2, 1)
-                globals.set_int(794989 + 4 + 1 + (locals.get_int("fmmc_launcher", HGGs1) * 95) + 75, 1)
+                globals.set_int(HEIST_SOLO_LAUNCH(locals.get_int("fmmc_launcher", HGGs1)), 1)
             end
             globals.set_int(HGLs1, 1)
             globals.set_int(HGLs2, 1)
@@ -6735,7 +6510,7 @@ SN_Doomsday:add_button("Force Ready", function()
         network.force_script_host("fm_mission_controller")
         script:sleep(1000)
         for i = 1, 4 do
-            globals.set_int(1882572 + 1 + ((i - 1) * 315) + 43 + 11 + i, 1)
+            globals.set_int(LEGACY_HEIST_FORCE_READY(i), 1)
         end
         gui.show_message("Doomsday Heist", "Everyone should've been forced ready")
     end)
@@ -7325,7 +7100,7 @@ CasinoHeistEditorMenu:add_imgui(function()
         if locals.get_int("fmmc_launcher", HGGs1) ~= nil and locals.get_int("fmmc_launcher", HGGs1) ~= 0 then
             if locals.get_int("fmmc_launcher", HGGs1) > 1 then
                 locals.set_int("fmmc_launcher", HGGs2, 1)
-                globals.set_int(794989 + 4 + 1 + (locals.get_int("fmmc_launcher", HGGs1) * 95) + 75, 1)
+                globals.set_int(HEIST_SOLO_LAUNCH(locals.get_int("fmmc_launcher", HGGs1)), 1)
             end
             globals.set_int(HGLs1, 1)
             globals.set_int(HGLs2, 1)
@@ -7398,7 +7173,7 @@ CasinoHeistExtra:add_button("Force Ready", function()
         network.force_script_host(FMC)
         script:sleep(1000)
         for i = 1, 4 do
-            globals.set_int(1882572 + 1 + ((i - 1) * 315) + 43 + 11 + i, 1)
+            globals.set_int(LEGACY_HEIST_FORCE_READY(i), 1)
         end
     end)
 end)
@@ -7811,7 +7586,7 @@ CayoHeistEditorMenu:add_imgui(function()
             network.force_script_host("fm_mission_controller_2020")
             script:sleep(1000)
             for i = 1, 4 do
-                globals.set_int(1979868 + 1 + ((i - 1) * 27) + 7 + i, 1)
+                globals.set_int(CAYO_FORCE_READY(i), 1)
             end
             gui.show_message("Cayo Perico Heist", "Everyone should've been forced ready")
         end)
@@ -7905,7 +7680,7 @@ livesValue = 3
 
 -- Target names
 local targetShortNames = {
-    "La Dernière Débauche", "Hare Oneself Think", "The Downfall of Rome",
+    "La DerniÃ¨re DÃ©bauche", "Hare Oneself Think", "The Downfall of Rome",
     "Brother Brother", "A Cast of Characters", "Gone To Seed",
     "True Love", "Breathless", "Consumato", "I Hear Voices",
     "Winter, Nowhere", "Pearl Necklace", "Chat on Fruit", "Pumpkin",
@@ -7952,26 +7727,25 @@ function getCurrentLives()
     return locals.get_int("fm_mission_controller_v3", KCLIVESL)
 end
 
--- Get payout from Global_262145.f_37405 + (index + 1)
+-- Get a Kortz target payout from the named offset catalog.
 function getCurrentPayout(index)
-    local value = globals.get_int(KCPAYOUT_BASE + index + 1)
+    local value = globals.get_int(KORTZ_PAYOUT(index))
     if value == 0 or value == nil then
         return targetBasePayouts[index + 1] or 0
     end
     return value
 end
 
--- Set payout to Global_262145.f_37405 + (index + 1)
+-- Set a Kortz target payout through the named offset catalog.
 function setPayout(index, value)
-    globals.set_int(KCPAYOUT_BASE + index + 1, value)
+    globals.set_int(KORTZ_PAYOUT(index), value)
 end
 
 function EnableSoloSecondaryTargets()
     local target_indices = { 0, 1, 5, 6, 7, 20, 21 }
     for _, i in ipairs(target_indices) do
-        local base = KCSECONDARY_BASE + (i * 333)
-        globals.set_int(base + 68, 0)
-        globals.set_int(base + 143, 0)
+        globals.set_int(KORTZ_SECONDARY_PRIMARY(i), 0)
+        globals.set_int(KORTZ_SECONDARY_SECONDARY(i), 0)
     end
     gui.show_message("Kortz Center", "Solo secondary targets enabled")
 end
@@ -8030,7 +7804,7 @@ end
 local function KortzSkipDataCrack()
     if isKortzHeistActive() then
         for b = 0, 7 do
-            locals.set_int("fm_mission_controller_v3", KCDCL + 1 + (b * 4), 1)
+            locals.set_int("fm_mission_controller_v3", KORTZ_DATA_CRACK(b), 1)
         end
         locals.set_int("fm_mission_controller_v3", KCDCL, 1)
         gui.show_message("Kortz Center Cracker", "Data crack bypassed")
@@ -8059,9 +7833,9 @@ end
 
 local function KortzAutoAccessCode()
     if isKortzHeistActive() then
-        locals.set_int("fm_mission_controller_v3", KCAC_BASE + (0 * 2), 0)
-        locals.set_int("fm_mission_controller_v3", KCAC_BASE + (1 * 2), 0)
-        locals.set_int("fm_mission_controller_v3", KCAC_BASE + (2 * 2), 0)
+        locals.set_int("fm_mission_controller_v3", KORTZ_ACCESS_CODE(0), 0)
+        locals.set_int("fm_mission_controller_v3", KORTZ_ACCESS_CODE(1), 0)
+        locals.set_int("fm_mission_controller_v3", KORTZ_ACCESS_CODE(2), 0)
         PAD.SET_CONTROL_VALUE_NEXT_FRAME(0, 237, 1.0)
         gui.show_message("Kortz Center Cracker", "Access code entered: 00-00-00")
     else
@@ -8081,7 +7855,7 @@ end
 
 local function CutVenus()
     if isKortzHeistActive() then
-        locals.set_float("fm_mission_controller_v3", KCCGL_BASE + (0 * 13) + KCCGL_OFFSET, 100.0)
+        locals.set_float("fm_mission_controller_v3", KORTZ_CUT_GLASS(0), 100.0)
         gui.show_message("Kortz Center Cracker", "Venus d'Algernon cut")
     else
         gui.show_message("Kortz Center Cracker", "Heist not active")
@@ -8090,7 +7864,7 @@ end
 
 local function CutGemstone()
     if isKortzHeistActive() then
-        locals.set_float("fm_mission_controller_v3", KCCGL_BASE + (1 * 13) + KCCGL_OFFSET, 100.0)
+        locals.set_float("fm_mission_controller_v3", KORTZ_CUT_GLASS(1), 100.0)
         gui.show_message("Kortz Center Cracker", "Gemstone cut")
     else
         gui.show_message("Kortz Center Cracker", "Heist not active")
@@ -8099,7 +7873,7 @@ end
 
 local function CutHorse()
     if isKortzHeistActive() then
-        locals.set_float("fm_mission_controller_v3", KCCGL_BASE + (2 * 13) + KCCGL_OFFSET, 100.0)
+        locals.set_float("fm_mission_controller_v3", KORTZ_CUT_GLASS(2), 100.0)
         gui.show_message("Kortz Center Cracker", "Horse cut")
     else
         gui.show_message("Kortz Center Cracker", "Heist not active")
@@ -8108,7 +7882,7 @@ end
 
 local function CutCoquard()
     if isKortzHeistActive() then
-        locals.set_float("fm_mission_controller_v3", KCCGL_BASE + (3 * 13) + KCCGL_OFFSET, 100.0)
+        locals.set_float("fm_mission_controller_v3", KORTZ_CUT_GLASS(3), 100.0)
         gui.show_message("Kortz Center Cracker", "Coquard Carcanet cut")
     else
         gui.show_message("Kortz Center Cracker", "Heist not active")
@@ -8117,7 +7891,7 @@ end
 
 local function CutMemento()
     if isKortzHeistActive() then
-        locals.set_float("fm_mission_controller_v3", KCCGL_BASE + (4 * 13) + KCCGL_OFFSET, 100.0)
+        locals.set_float("fm_mission_controller_v3", KORTZ_CUT_GLASS(4), 100.0)
         gui.show_message("Kortz Center Cracker", "Memento Non Mori cut")
     else
         gui.show_message("Kortz Center Cracker", "Heist not active")
@@ -8127,7 +7901,7 @@ end
 local function KortzCutAllGlass()
     if isKortzHeistActive() then
         for i = 0, 4 do
-            locals.set_float("fm_mission_controller_v3", KCCGL_BASE + (i * 13) + KCCGL_OFFSET, 100.0)
+            locals.set_float("fm_mission_controller_v3", KORTZ_CUT_GLASS(i), 100.0)
         end
         gui.show_message("Kortz Center Cracker", "All glass cases cut")
     else
@@ -8185,14 +7959,14 @@ script.register_looped("KortzCenterAutoHack", function(s)
     if not dataCrackTriggered then
         local isActive = false
         for b = 0, 7 do
-            if locals.get_int("fm_mission_controller_v3", KCDCL + 1 + (b * 4)) == 0 then
+            if locals.get_int("fm_mission_controller_v3", KORTZ_DATA_CRACK(b)) == 0 then
                 isActive = true
                 break
             end
         end
         if isActive then
             for b = 0, 7 do
-                locals.set_int("fm_mission_controller_v3", KCDCL + 1 + (b * 4), 1)
+                locals.set_int("fm_mission_controller_v3", KORTZ_DATA_CRACK(b), 1)
             end
             locals.set_int("fm_mission_controller_v3", KCDCL, 1)
             dataCrackTriggered = true
@@ -8641,7 +8415,7 @@ KortzCenterCrackerMenu:add_imgui(function()
     ImGui.Separator()
 
     for i = 0, 4 do
-        local progress = locals.get_float("fm_mission_controller_v3", KCCGL_BASE + (i * 13) + KCCGL_OFFSET)
+        local progress = locals.get_float("fm_mission_controller_v3", KORTZ_CUT_GLASS(i))
         local status = "Available"
         local r, g, b = 1.0, 0.0, 0.0
         if progress >= 100.0 then

@@ -1,6 +1,6 @@
 # Nenyoo Legacy in-game verification
 
-Use GTA V **Legacy build 3889** and the Nenyoo DLL built with the `__ny_execute_as_script` and `__ny_request_script_host` Lua bridges. The package must be at `%LOCALAPPDATA%\Nenyoo\Plus\Scripts\User\UltimateMenu\` with `Ultimate_Menu.lua` and `lib\yim_compat.lua` beside `lib\Ultimate_Menu_Legacy.lua`. Open `Ultimate_Menu.lua` from Nenyoo's Scripts menu; it is a menu page that loads when opened.
+Use GTA V **Legacy build 3889** and the Nenyoo DLL built with the `__ny_execute_as_script` and `__ny_request_script_host` Lua bridges. The package must be at `%LOCALAPPDATA%\Nenyoo\Plus\Scripts\User\UltimateMenu\` with `Ultimate_Menu.lua`, `lib\game_offsets.lua`, and `lib\yim_compat.lua` beside `lib\Ultimate_Menu_Legacy.lua`. Open `Ultimate_Menu.lua` from Nenyoo's Scripts menu; it is a menu page that loads when opened.
 
 ## First run
 

@@ -158,6 +158,13 @@ io.open = function(name, mode)
 end
 
 local before_load = #native_calls
+local offset_catalog = dofile("Nenyoo/lib/game_offsets.lua")
+assert(offset_catalog.globals.TRANSACTION_ERROR_GLOBAL_1 == 4516981, "Global offset catalog did not load")
+assert(offset_catalog.locals.AHLIVESL == 26234 + 1325 + 1, "Apartment lives local is missing")
+assert(offset_catalog.globals.APARTMENT_COOLDOWN(0) == 2686119 + 1 + 76,
+    "Dynamic global formula is incorrect")
+assert(offset_catalog.locals.KORTZ_CUT_GLASS(4) == 32453 + 1 + (4 * 13) + 3,
+    "Dynamic local formula is incorrect")
 local executed_lines = {}
 if os.getenv("UM_SCAN_COVERAGE") then
     debug.sethook(function(_, line)

@@ -34,6 +34,12 @@ local function run(path)
     return chunk()
 end
 
+local offsets = run(directory .. "lib\\game_offsets.lua")
+for _, group in ipairs({offsets.globals, offsets.locals, offsets.scripts}) do
+    for name, value in pairs(group) do environment[name] = value end
+end
+environment.ULTIMATE_MENU_OFFSETS = offsets
+
 local compatibility = run(directory .. "lib\\yim_compat.lua")
 run(directory .. "lib\\Ultimate_Menu_Legacy.lua")
 run(directory .. "lib\\info_panel.lua")(compatibility)
